@@ -1,0 +1,37 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{includeModules}[2021/07/06]
+
+
+\newif\if@template@option@module@noMacro
+\newif\if@template@option@module@GRS
+
+
+\pgfkeys{
+    \template@setfamily{\template@setupName},
+%
+% Here you may include your own modules.
+    GRS/.is if=@template@option@module@GRS,
+%
+    no macro/.is if=@template@option@module@noMacro,
+    nm/.code={\pgfkeysalso{no macro}},
+%
+% Here are options for packages as they cannot be included dynamically.
+}
+
+
+\providecommand{\digestModules}{
+    % Set the modules correctly
+    \if@template@option@module@GRS
+    \usepackage{GRS}
+    \if@template@option@module@noMacro\else
+    \GRS
+    \fi
+    \fi
+    %
+}
+
+
+
+%! Here are static includes from the various modules that cannot be linked dynamically.
+
+

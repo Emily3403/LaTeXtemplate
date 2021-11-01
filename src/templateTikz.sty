@@ -1,0 +1,117 @@
+%!
+%! Note: This package does *not* check for previous includes of "smaller" template files. It is assumed that they already got included!
+%!
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{templateTikz}[2021/06/15]
+
+
+
+\RequirePackage{tikz}
+\RequirePackage{graphicx}
+\RequirePackage{pgfplots}
+\pgfplotsset{compat=1.17}
+
+\usetikzlibrary{shapes.misc, automata, positioning, calc, 3d, arrows.meta, patterns, math, fit}
+
+\tikzset{cross/.style={cross out, draw=black, fill=none, minimum size=2*(#1-\pgflinewidth), inner sep=0pt, outer sep=0pt}, cross/.default={2pt}}
+\tikzset{>=Latex}
+
+% TODO: Add from VS
+
+
+
+%! This command is now deprecated. Instead, use the \begin{axis} … \end{axis} environment from pgfplots.
+%\NewDocumentCommand{\zdkoor}{O{0} O{0} O{1} O{1} O{0} O{0} m m}{%
+%%   #1: Negative x Koordinate
+%%   #2: Negative y Koordinate
+%%   #3: Grid 1 / 0
+%%   #4: 0 auf der (1 - Rechten) (0 - Linken) Seite
+%%   #5: Imaginäre Achse
+%%   #6: 0. scale
+%    \def\grid{#3}
+%
+%    \def\nxNum{#1}
+%    \def\xNum{#7}
+%
+%    \def\nyNum{#2}
+%    \def\yNum{#8}
+%
+%    \def\komma{#6}
+%
+%%------------------------------------------------
+%
+%%Imaginäre Achse--------
+%    \ifthenelse{#5=1}{
+%        \def\ybuchst{i}
+%    }{
+%        \def\ybuchst{y}
+%    }
+%%/Imaginäre Achse--------
+%
+%%Grid--------
+%    \ifthenelse{\grid=1}{
+%        \ifthenelse{\nxNum=0}{\def\gnxNum{0}}{\def\gnxNum{\nxNum - 0.4}}
+%        \ifthenelse{\nyNum=0}{\def\gnyNum{0}}{\def\gnyNum{\nyNum - 0.4}}
+%
+%        \draw[very thin, gray] (\gnxNum, \gnyNum) grid (\xNum + 0.4, \yNum + 0.4);
+%    }{}
+%%/Grid--------
+%
+%%Null--------
+%    \ifthenelse{\nyNum=0}{
+%        \def\nullxNum{0}
+%    }{
+%        \ifthenelse{#4=1}{
+%            \def\nullxNum{-0.3}
+%        }{
+%            \def\nullxNum{0.3}
+%        }
+%    }
+%
+%%\helow weil irgendwas mit /be für \begin{} abfuckt
+%    \ifthenelse{\not\nyNum=0 \AND \nxNum=0}{
+%        \def\helow{}
+%    }{
+%        \def\helow{below}
+%    }
+%
+%    \draw (\nullxNum, -0.07) node[\helow] {0};
+%%/Null--------
+%
+%%x-Achse--------
+%    \ifthenelse{\nxNum < 0}{
+%        \draw[->] (\nxNum - 0.5, 0) -- (\xNum + 0.5, 0) node[right] {$x$};
+%    }{
+%        \draw[->] (\nxNum, 0) -- (\xNum + 0.5, 0) node[right] {$x$};
+%    }
+%%/x-Achse--------
+%
+%%y-Achse--------
+%    \ifthenelse{\nyNum < 0}{
+%        \draw[->] (0, \nyNum - 0.5) -- (0, \yNum + 0.5) node[above] {$\ybuchst$};
+%    }{
+%        \draw[->] (0, \nyNum) -- (0, \yNum + 0.5) node[above] {$\ybuchst$};
+%    }
+%%/y-Achse--------
+%
+%%x-Beschriftung--------
+%    \foreach \x in {\nxNum,...,\xNum}{
+%        \ifthenelse{\x=0}{}{
+%            \draw (\x, 0.07) -- (\x, -0.07) node[below, fill=white] {\x};
+%        }
+%    }
+%%/x-Beschriftung--------
+%
+%%y-Beschriftung--------
+%    \ifthenelse{\komma=1}{
+%        \def\komma{0.}
+%    }{
+%        \def\komma{}
+%    }
+%    \foreach \y in {\nyNum,...,\yNum}{
+%        \ifthenelse{\y=0}{}{
+%            \draw (0.07, \y) -- (-0.07, \y) node[left, fill=white] {\komma\y};
+%        }
+%    }
+%}

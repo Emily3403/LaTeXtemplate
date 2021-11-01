@@ -1,0 +1,52 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{CA}[2021/06/29]
+\RequirePackage{templateSmall}
+\RequirePackage{credentials}
+\RequirePackage{amsmath}
+
+\providecommand{\CA}{%
+    \title{Exercise \template@exerciseNumber\quad--\quad Cognitive Algorithms\\[15pt]}%
+    \template@credentials@make{{mattis}}
+    \fancyhead[L]{Mattis -- 411364}%
+    \renewcommand\thesection{Exercise \arabic{section}}%
+    \renewcommand\thesubsection{\alph{subsection})}%
+}
+
+%! Macro for a text circle
+% https://tex.stackexchange.com/questions/502274/circle-symbol-compatible-with-square-and-triangle
+\newcommand{\tcircle}{\mathord{\mathpalette\template@module@ca@circle\relax}}
+\newcommand\template@module@ca@circle[2]{%
+  \begingroup
+  \sbox\z@{\raisebox{\depth}{$\m@th#1\bigcirc$}}%
+  \sbox\tw@{$#1\square$}%
+  \resizebox{!}{\ht\tw@}{\usebox{\z@}}%
+  \endgroup
+}
+
+%! Macros that symbolize classA and classB
+\newcommand{\clA}{\tcircle}
+\newcommand{\clB}{\triangle}
+\newcommand{\allC}{\bullet}
+
+
+\newcommand{\EE}{\mathcal{E}}
+\newcommand{\E}{\mathbb{E}}
+
+\newcommand{\M}{\mathcal{M}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\X}{\mathcal{X}}
+\newcommand{\F}{\mathcal{F}}
+
+
+
+
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\Corr}{Corr}
+\DeclareMathOperator{\sign}{sign}
+
+\newcommand{\emu}{\hat{\mu}}
+
+\newcommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
+
+

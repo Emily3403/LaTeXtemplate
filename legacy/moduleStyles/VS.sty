@@ -1,0 +1,159 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{VS}[2021/06/29]
+\RequirePackage{templateSmall}
+
+\usepackage{rotating} %Paket für Tackermarkierungen.
+\usepackage{tikz}
+\usepackage{wrapfig} %% Bilder mit Text-Umfluss
+\usepackage{pgffor}
+\usepackage{xstring}
+\usepackage{caption}
+\usepackage{blindtext}
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{setspace}
+\usepackage{makecell}
+\usepackage{changepage}
+\usepackage{float}
+
+\newcommand{\centered}[1]{\begin{tabular}{l} #1 \end{tabular}}
+\newcolumntype{L}[1]{>{\arraybackslash}p{#1}<{}}
+\DeclareMathOperator{\MAC}{MAC}
+\usetikzlibrary{shapes.geometric}
+
+%! Boolean value to include the answers.
+\def\makeAnswers{1}
+
+\providecommand{\VS}{%
+    \renewcommand{\mktitle}{\pagenumbering{gobble}\Deckblatt\newpage\pagenumbering{arabic}}
+    %
+    \renewcommand\thesection{Kapitel \arabic{chapter}.\arabic{section}.}%
+    \renewcommand\thesubsection{(\alph{subsection})}%
+    \renewcommand\thesubsubsection{(\textit{\roman{subsubsection}})}%
+    %
+    % Idk about this indentation…
+    \cftsetindents{sec}{30pt}{69pt}
+    \cftsetindents{subsec}{45pt}{25pt}
+}
+
+
+
+
+\newcommand{\BitteTackern}{
+    \enlargethispage{\baselineskip}
+    \begin{tikzpicture}
+        \path[use as bounding box] (2,-1) rectangle (2,-1);
+    	\begin{turn}{45}
+    	\node at (0,0) {\LARGE $\ulcorner$};
+    	\node at (1,0) {\LARGE $\urcorner$};
+    	\node at (0,-0.5) {\LARGE $\llcorner$};
+    	\node at (1,-0.5) {\LARGE $\lrcorner$};
+
+    	\end{turn}
+
+    	\node at (0.8,1.2) {\tiny Bitte hier tackern!};
+    \end{tikzpicture}
+}
+
+
+\newcommand{\vsMainContent}{
+    \pagenumbering{arabic}
+    \pagestyle{fancy}
+    \fancyhf{}
+    % Define the right header and footer.
+    \renewcommand{\sectionmark}[1]{\markright{\thesection\ ##1}}
+    \fancyhead[L]{\rightmark}
+    \fancyhead[R]{\thedate}
+    \fancyfoot[C]{\thepage\;$\nicefrac{}{}$\;\pageref{LastPage}}
+}
+
+
+\fancypagestyle{plain}{%
+    \fancyhf{}%
+    \fancyfoot[C]{\thepage\;$\nicefrac{}{}$\;\pageref{LastPage}}%
+    \renewcommand{\headrulewidth}{0pt}
+}
+
+
+\def\Creator{Michel Schnitker\\Martin Hübner\\Mattis Seebeck\\Matteo Gätzner\\Nicolas Look}
+
+\newcommand{\Deckblatt}{
+    \begin{center}
+        \Large{\textsc{Modul: Verteilte Systeme}}\\[10pt]
+        \normalsize{\textsl{Technische Universität Berlin} \hspace{\fill} \textsl{SoSe 2021, \today}}\\[20pt]
+        \Large{Zusammenfassung}\Lf
+        \vspace{0.5\baselineskip}\centering\large{Mitwirkende:\Lf\Creator}\\
+    \end{center}
+}
+
+
+\newcounter{template@vs@counter}
+\newcounter{template@vs@dummyCounter}
+\newcounter{template@vs@q+a@number}
+
+\newcommand{\makeQuestionsAndAnswers}[1][]{
+% Check if #1 is empty
+    \if\relax\detokenize{#1}\relax
+    \ifnum\value{section}=0
+            \def\heading{\arabic{chapter}}
+        \else
+            \def\heading{\arabic{chapter}.\arabic{section}}
+        \fi
+    \else
+    \def\heading{#1}
+    \fi
+    %
+    \@ifundefined{Questions}{\ClassError{main}{No Questions/Answers supplied. I am not using any!}{}}{}
+    %
+    % Declare stuff
+    \addtocounter{template@vs@q+a@number}{1}
+    \def\theSpace{-30pt}
+    \def\sharedPart##1{\arabic{template@vs@q+a@number} ##1}
+    \def\makeQuestionLabel##1{Fragen\sharedPart{##1}}
+    \def\makeAnswerLabel##1{Antworten\sharedPart{##1}}
+    \def\maybeMakeLF##1##2{
+        \StrLeft{##1}{1}[\temp]
+        \if 1\temp \else \hspace*{-10pt} ##2 \fi
+    }
+%
+    \clearpage
+    \phantomsection
+    \addcontentsline{toc}{section}{Fragen Kapitel \heading}
+    \section*{Fragen Kapitel \heading}
+    %
+    % Now make the Questions
+    \ifnum\makeAnswers=1
+    \vspace{\theSpace}~
+    \foreach[count=\i] \Q/\A in \Questions {
+        \hspace*{-10pt}\LF
+        \hyperref[\makeAnswerLabel{\i}]{\textbf{Frage \i}}\refstepcounter{template@vs@counter}\label{\makeQuestionLabel{\i}}\lf
+        \Q
+    }
+    \newpage
+    %
+    % Make Answers
+    \section*{Antworten Kapitel \heading}
+    \vspace{\theSpace}~
+    \foreach[count=\i, remember=\z as \lastString (initially 0)] \Q/\A/\z in \Questions {
+    % Check if the first char of \z == 1. If so, dont make the LF. This has the limitation that passed Answers may not begin with a 1. But that is fine. Probably…
+        \maybeMakeLF{\lastString}{\LF}
+        \hyperref[\makeQuestionLabel{\i}]{\textbf{Antwort \i}}\refstepcounter{template@vs@counter}\label{\makeAnswerLabel{\i}}\lf
+        \emph{\Q}%
+        \maybeMakeLF{\z}{\Lf}%
+        \A
+    }
+    \else
+    %
+    % Make the questions without \ref
+    \vspace{\theSpace}~
+    \foreach[count=\i] \Q/\A in \Questions {
+        \LF
+        \textbf{Frage \i}\lf
+        \Q
+    }
+    \fi
+    %
+    %
+    \clearpage
+    \let\Questions\undefined
+}
