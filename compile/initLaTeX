@@ -25,12 +25,15 @@ last_commit=$(git rev-parse HEAD)
 cd "$cwd" || exit
 
 ln -s "$HOME/Documents/Uni/LaTeX/compile/clatex/" .
+ln -s "$HOME/Documents/Uni/LaTeX/src/" .
+
 
 echo "%&clatex/templateAll
 \endofdump
 %! Generated with commit hash: \"$last_commit\"
 %! sha1sum of templateAll.fmt: \"$sha\"
 
+\date{X.$(date +"%m.%Y")}
 \useTemplate[$attrs$ex]
 
 
