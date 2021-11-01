@@ -38,7 +38,7 @@ echo "%&clatex/templateAll
 
 
 \begin{document}
-
+    \maketitle
 
 
 \end{document}
