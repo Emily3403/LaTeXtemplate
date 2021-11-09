@@ -109,7 +109,6 @@ Copyright (C) 2010-2011 by Florent Chervet <florent.chervet@free.fr>
               to compile this documentation.}}}}%
  \gdef\CheckDate#1{{\let\CheckDate\relax\toks@{}\@for\x:=#1\do{\expandafter\ErrorUpdate\x,}\CheckDate\expandafter{\the\toks@}}}}
 \AtBeginDocument{\DeleteShortVerb{\|}\CheckDate{interfaces=2011/01/26,tabu=2011/01/26}}
-\PassOptionsToPackage{svgnames}{xcolor}
 \PassOptionsToPackage{hyperfootnotes}{hyperref}
 \documentclass[a4paper,oneside]{ltxdoc}
 \usepackage[latin1]{inputenc}
@@ -186,7 +185,7 @@ Copyright (C) 2010-2011 by Florent Chervet <florent.chervet@free.fr>
 %
 % \let\ClearPage\clearpage
 % \makeatletter
-% \catcode`\§ \active   \def§{\@ifnextchar §{\par\nobreak\vskip-2\parskip}{\par\nobreak\vskip-\parskip}}
+% \catcode`\ï¿½ \active   \defï¿½{\@ifnextchar ï¿½{\par\nobreak\vskip-2\parskip}{\par\nobreak\vskip-\parskip}}
 % \newrobustcmd\Xspace{\ifnum\catcode`\ =\active\else\expandafter\xspace\fi}
 % \newrobustcmd*\stform{\ifincsname\else\expandafter\@stform\fi}
 % \newrobustcmd*\@stform{\@ifnextchar*{\@@stform[]\textasteriskcentered\@gobble}\@@stform}
@@ -362,7 +361,7 @@ Copyright (C) 2010-2011 by Florent Chervet <florent.chervet@free.fr>
 % \smex To get the package,                   &run:          &\texttt{etex \thisfile.dtx}                  \\
 % \smex To get the documentation              &run (thrice): &\textt{pdflatex \thisfile.dtx}               \\
 % \leavevmode\hphantom\smex To get the index, &run:          &\texttt{makeindex -s gind.ist \thisfile.idx}
-% \end{tabu}§
+% \end{tabu}ï¿½
 % The \xext{dtx} file is embedded into this pdf file thank to \Xpackage{embedfile} by H. Oberdiek.}
 % }
 %
@@ -479,7 +478,7 @@ Copyright (C) 2010-2011 by Florent Chervet <florent.chervet@free.fr>
 % (only one quote if it does not contain any space, but 3 quotes is more general...)
 % \medskip
 %
-% Full example:§§
+% Full example:ï¿½ï¿½
 % \begin{VerbLines}
 %  etex -initialize -save-size=20000 -stack-size=20000
 %                   -jobname="The-Name-Of-The-.fmt-File(without .fmt extension)"
@@ -582,7 +581,7 @@ Copyright (C) 2010-2011 by Florent Chervet <florent.chervet@free.fr>
 %%%                           mylatexformat.ltx
 %%%                           ^^^^^^^^^^^^^^^^^
 %%% From an original idea by David Carlisle - mylatex.ltx 1994/09/27
-%%% © lppl 2010-2011 - F Chervet - 2011/02/12 v3.4
+%%% ï¿½ lppl 2010-2011 - F Chervet - 2011/02/12 v3.4
 %%% _____________________________________________________________________
 %%%
 %%% Use this file to make a format based on the preamble of any LaTeX
@@ -635,7 +634,7 @@ Copyright (C) 2010-2011 by Florent Chervet <florent.chervet@free.fr>
 %%%                    -jobname="Mon Beau Format Perso"
 %%%                    "&pdflatex" mylatexformat.ltx "Mon Fichier TeX.tex"
 %%%
-%%%   "Mon Beau Format Perso.fmt" (en Français dans le texte) will be created
+%%%   "Mon Beau Format Perso.fmt" (en Franï¿½ais dans le texte) will be created
 %%%   (or overwritten) in the current working directory.
 %%%
 %%% Using the format ---------------------------------------------------

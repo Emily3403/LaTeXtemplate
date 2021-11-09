@@ -36,7 +36,6 @@
               to compile this documentation.}}}}%
  \gdef\CheckDate#1{{\let\CheckDate\relax\toks@{}\@for\x:=#1\do{\expandafter\ErrorUpdate\x,}\CheckDate\expandafter{\the\toks@}}}}
 \AtBeginDocument{\DeleteShortVerb{\|}\CheckDate{interfaces=2011/01/26,tabu=2011/01/26}}
-\PassOptionsToPackage{svgnames}{xcolor}
 \PassOptionsToPackage{hyperfootnotes}{hyperref}
 \documentclass[a4paper,oneside]{ltxdoc}
 \usepackage[latin1]{inputenc}

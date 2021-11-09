@@ -15,7 +15,7 @@
 \RequirePackage{xparse}    % Nice syntax for newcommands
 \RequirePackage{lastpage}  % Package for the fancy pagenumber
 \RequirePackage{nicefrac}  % Package for the fancy pagenumber
-\RequirePackage[dvipsnames]{xcolor}  % Colors!
+\usepackage[svgnames]{xcolor}  % Colors!
 \RequirePackage{tocloft}   % Manipulate the table of contents
 \RequirePackage{hyperref}  % Make the links colorful!
 
@@ -33,3 +33,9 @@
 \providecommand{\colorB}{ForestGreen}
 \providecommand{\colorC}{VioletRed}
 \providecommand{\colorD}{Dandelion}
+
+% A better hyperlink
+\let\oldHref\href
+\renewcommand{\href}[2]{
+    \oldHref{#1}{#2}\footnote{\url{#1}}
+}
