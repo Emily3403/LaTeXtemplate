@@ -3,7 +3,8 @@
 if [ -n "$1" ]; then
   attrs=$(echo "
 lookup = {
-  'grs': 'GRS, german'
+  'grs': 'GRS, german',
+  'ig': 'IG, german',
 }
 
 print(lookup['$1'.lower()])
@@ -30,10 +31,17 @@ ln -s "$HOME/Documents/Uni/LaTeX/src/" .
 
 echo "%&clatex/templateAll
 \endofdump
+
+%\documentclass[11pt]{article}
+%\usepackage{template}
+%\useTemplateStatic[a]
+
+%\usepackage{src/template}
+
 %! Generated with commit hash: \"$last_commit\"
 %! sha1sum of templateAll.fmt: \"$sha\"
 
-\date{$(date +"%Y - %m - X")}
+\date{$(date +"%Y -- %m -- X")}
 \useTemplate[$attrs$ex]
 
 
