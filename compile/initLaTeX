@@ -11,13 +11,6 @@ print(lookup['$1'.lower()])
   " | python3)
 fi
 
-if [ -n "$2" ]; then
-  exdirname=$(printf "Exercise%02d" $2)
-  mkdir "$exdirname" || exit
-  cd "$exdirname" || exit
-  ex=", Ex=$2"
-fi
-
 sha=$(sha1sum "$HOME/Documents/Uni/LaTeX/compile/clatex/templateAll.fmt" | head -c 40)
 
 cwd=$(pwd)

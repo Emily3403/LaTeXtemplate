@@ -66,6 +66,7 @@
 \NewDocumentCommand{\Bstrut}{O{}}{\if\relax\detokenize{#1}\relax\rule[-12pt]{0pt}{0pt} \else\rule[-#1]{0pt}{0pt} \fi}
 \NewDocumentCommand{\fancyEnd}{O{} O{}}{\Tstrut[#1]\Bstrut[#2]\\\hline}
 
+\def\endIt{\\\hline}
 
 %! Define all the Number-sets like ℕ
 \providecommand{\N}{\mathbb{N}}
