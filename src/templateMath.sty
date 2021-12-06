@@ -42,6 +42,7 @@
 \RequirePackage{stmaryrd}     % */
 \RequirePackage{mathtools}    %
 \RequirePackage{array}        %
+\usepackage{multirow}         % Nice package for multirows in tabulars
 \RequirePackage{physics}      %
 \RequirePackage{aligned-overset}
 \RequirePackage{mathtools}    %
@@ -51,14 +52,17 @@
 \usepackage{centernot}        % Centered not
 \RequirePackage[ruled, linesnumbered]{algorithm2e}
 
+\usepackage{typearea}         % Package for rotating the page → might not be useful in every context.
+
 
 %! more space between equations in displaystyle math
 \setlength{\jot}{7pt}
 
 %! Define new column types - Centered with an option to set the width to a fixed amount.
-\newcolumntype{M}[1]{>{\centering\arraybackslash$}p{#1}<{$}}
-\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}<{}}
-\newcolumntype{L}[1]{>{\arraybackslash}p{#1}<{}}
+\newcolumntype{M}[1]{>{\centering\arraybackslash$}m{#1}<{$}}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 
 %! Commands to expand the Table height. Both take an optional argument, which defaults to 18pt / 12pt respectively.
 %! These should be deprecated as arraystretch is big enough to hold text.
