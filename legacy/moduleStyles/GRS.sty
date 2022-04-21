@@ -1,0 +1,18 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{GRS}[2021/10/31 Package GRS]
+\RequirePackage{credentials}
+
+\providecommand{\GRS}{%
+    \title{Grundlagen der Rechnersicherheit}%
+    \template@credentials@make{{emily,michel,martin,jakob}}
+    %
+    \renewcommand{\thesection}{}%
+    \template@getkey[\template@setupName]{Ex}{\exerciseNumber}
+    \newcounter{Exercise}
+    \setcounter{Exercise}{\exerciseNumber}
+    \renewcommand\thesection{Aufgabe \arabic{Exercise}.\arabic{section}}%
+    \renewcommand\thesubsection{\alph{subsection})}%
+%    \renewcommand\thesubsubsection{(\textit{\roman{subsubsection}})}%
+}
+
+

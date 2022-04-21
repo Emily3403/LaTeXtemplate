@@ -1,14 +1,17 @@
 #!/bin/bash
 
 if [ -n "$1" ]; then
-  attrs=$(echo "
-lookup = {
-  'grs': 'GRS, german',
-  'ig': 'IG, german',
-}
-
-print(lookup['$1'.lower()])
-  " | python3)
+    case $1 in
+        AOT)
+            attrs="AOT, german"
+            ;;
+        GRS)
+            attrs="GRS, german"
+            ;;
+        *)
+            attrs=""
+            ;;
+    esac
 fi
 
 sha=$(sha1sum "$HOME/Documents/Uni/LaTeX/compile/clatex/templateAll.fmt" | head -c 40)
@@ -18,16 +21,15 @@ cd "$HOME/Documents/Uni/LaTeX/" || exit
 last_commit=$(git rev-parse HEAD)
 cd "$cwd" || exit
 
-ln -s "$HOME/Documents/Uni/LaTeX/compile/clatex/" .
-ln -s "$HOME/Documents/Uni/LaTeX/src/" .
-
+ln -s "$HOME/Documents/Programs/LaTeX/emily_template/compile/template.fmt" .
+ln -s "$HOME/Documents/Programs/LaTeX/emily_template/src/" .
 
 echo "%&clatex/templateAll
 \endofdump
 
 %\documentclass[11pt]{article}
 %\usepackage{template}
-%\useTemplateStatic[a]
+%\useTemplateStatic[all]
 
 %\usepackage{src/template}
 
@@ -35,11 +37,11 @@ echo "%&clatex/templateAll
 %! sha1sum of templateAll.fmt: \"$sha\"
 
 \date{$(date +"%Y -- %m -- X")}
-\useTemplate[$attrs$ex]
+\useTemplate[$attrs]
 
 
 \begin{document}
-    \maketitle
+\maketitle
 
 
 \end{document}
