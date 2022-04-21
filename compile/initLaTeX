@@ -14,7 +14,7 @@ if [ -n "$1" ]; then
     esac
 fi
 
-sha=$(sha1sum "$HOME/Documents/Uni/LaTeX/compile/clatex/templateAll.fmt" | head -c 40)
+sha=$(sha1sum "$HOME/Documents/Programs/LaTeX/emily_template/compile/template.fmt" | head -c 40)
 
 cwd=$(pwd)
 cd "$HOME/Documents/Uni/LaTeX/" || exit
@@ -24,7 +24,7 @@ cd "$cwd" || exit
 ln -s "$HOME/Documents/Programs/LaTeX/emily_template/compile/template.fmt" .
 ln -s "$HOME/Documents/Programs/LaTeX/emily_template/src/" .
 
-echo "%&clatex/templateAll
+echo "%&template
 \endofdump
 
 %\documentclass[11pt]{article}
@@ -35,6 +35,7 @@ echo "%&clatex/templateAll
 
 %! Generated with commit hash: \"$last_commit\"
 %! sha1sum of templateAll.fmt: \"$sha\"
+%! Repository URL: https://github.com/Emily3403/LaTeXtemplate
 
 \date{$(date +"%Y -- %m -- X")}
 \useTemplate[$attrs]
