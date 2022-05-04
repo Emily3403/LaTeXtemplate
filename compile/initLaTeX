@@ -17,7 +17,7 @@ fi
 sha=$(sha1sum "$HOME/Documents/Programs/LaTeX/emily_template/compile/template.fmt" | head -c 40)
 
 cwd=$(pwd)
-cd "$HOME/Documents/Uni/LaTeX/" || exit
+cd "$HOME/Documents/Programs/LaTeX/emily_template/" || exit
 last_commit=$(git rev-parse HEAD)
 cd "$cwd" || exit
 
