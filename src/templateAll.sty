@@ -8,16 +8,12 @@
 \ProvidesPackage{templateAll}[2021/06/15]
 
 
-
-\RequirePackage{tikz}
-\RequirePackage{graphicx}
-\RequirePackage{pgfplots}
-\pgfplotsset{compat=1.18}
+\RequirePackage{tikz}       % Package for plotting things
+\RequirePackage{graphicx}   %
+\RequirePackage{pgfplots}   % More plotting
+\pgfplotsset{compat=1.18}   %
 
 \usetikzlibrary{shapes.misc, automata, positioning, calc, 3d, arrows.meta, patterns, math, fit}
-
-\tikzset{cross/.style={cross out, draw=black, fill=none, minimum size=2*(#1-\pgflinewidth), inner sep=0pt, outer sep=0pt}, cross/.default={2pt}, >=Latex}
-
 
 % Set up a new keyspace
 \providecommand{\template@math@symbol@name}{math symbol}
@@ -197,20 +193,17 @@
         %
         % If no Space given - find the best
         \if\relax#1
-            %
-            % Only use the default spacing for the double align option
-            %
             \if@template@math@symbol@doublealign
                 \template@setkey[\template@math@symbol@name]{kern=40}
             \else
                 \template@setkey[\template@math@symbol@name]{kern=0}
             \fi
-            %
             \else
             %
             \template@setkey[\template@math@symbol@name]{kern=#1}
             \fi
             %
+            \else
             \fi
         }
 
@@ -338,3 +331,9 @@
                 }
 
 
+
+                % Cross symbol
+                \tikzset{
+                    cross/.style={cross out, draw=black, fill=none, minimum size=2*(#1-\pgflinewidth), inner sep=0pt, outer sep=0pt},
+                    cross/.default={2pt}, >=Latex
+                }
