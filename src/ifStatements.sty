@@ -1,0 +1,11 @@
+% This file exists because vim can't handle `\if` statements that are not closed with a `\fi`.
+% Thus, they are redefined.
+
+\newcommand\Iftesttrue{}  \let\iftesttrue\@firstoftwo
+\newcommand\Iftestfalse{} \let\iftestfalse\@secondoftwo
+
+\def\Ifcsdef{\ifcsdef}
+\def\Ifcsempty{\ifcsempty}
+
+\def\Iftoggle{\iftoggle}
+\def\Ifdefempty{\ifdefempty}
