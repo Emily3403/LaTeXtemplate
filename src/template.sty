@@ -218,8 +218,6 @@
     pagestyle/None/.code={},
     pagestyle/Emily/.code=\template@defaultlook,
     %
-    % No math renew
-    no renew/.is if=@template@option@noRenew,
     %
     % Aliases
     english/.code=\pgfkeysalso{language=english},
@@ -231,26 +229,6 @@
     pagestyle=Emily,
     geometry/.initial={a4paper, total={17cm,24cm}},
 }
-
-% Setup if / else statements for the maintained options
-\newif\if@template@option@noRenew
-
-% Sets the language options.
-\providecommand{\template@setLanguage}[1]{
-    % German
-    \if#1g
-        \RequirePackage[ngerman]{babel}
-    \fi
-    %
-    % English
-    \if#1e
-        \RequirePackage[USenglish]{babel}
-    \fi
-}
-
-% Include the module choices. This is done now, rather than at the beginning, since it requires the `@setupName` keyspace and some other macros.
-\RequirePackage{moduleStyles}
-
 
 % The purpose of this macro is to digest the dynamic options which the user has given.
 %  #1 = {KEY1 = VAL1, KEY2 = VAL2, …}
@@ -272,6 +250,22 @@
 }
 
 
+% Sets the language options.
+\providecommand{\template@setLanguage}[1]{
+    % German
+    \if#1g
+        \RequirePackage[ngerman]{babel}
+    \fi
+    % English
+    \if#1e
+        \RequirePackage[USenglish]{babel}
+    \fi
+}
+
+% Include the module choices. This is done now, rather than at the beginning, since it requires the `@setupName` keyspace and some other macros.
+\RequirePackage{moduleStyles}
+
+
 % -/- Setup options ---
 
 
@@ -281,8 +275,7 @@
 % This is my personal preference for my documents.
 % You may define your own custom style which you then use as your pagestyle.
 \providecommand{\template@defaultlook}{
-    % First we have to load templateSmall for the neccessary includes.
-    % Get the current geometry.
+    % Set up the geometry
     \template@getkey[\template@setupName]{geometry}{\template@theGeometry}
     \expandafter\geometry\expandafter{\template@theGeometry}
     %
@@ -291,6 +284,7 @@
     % Define the right header and footer.
     \fancyhead[R]{\thedate}
     \fancyfoot[C]{\thepage\;$\nicefrac{}{}$\;\pageref{LastPage}}
+    %
     % The left header is missing. This gets handled in the module style.
     % Depending on which module we have, one might want different people included.
     %
@@ -303,18 +297,10 @@
     \setlength{\footnotesep}{11pt}
     \setlength{\skip\footins}{19pt}
     %
-    %
-    % More space in tables.
-    \setlength{\tabcolsep}{5pt}
-    %
-    % No indents on newline.
-    \setlength{\parindent}{0pt}
-    %
-    % More space between paragraphs.
-    \RequirePackage{parskip}
-    %
-    % This forces tables to be "bigger" - so that the text is contained nicely in them.
-    \renewcommand{\arraystretch}{1.2}
+    \setlength{\tabcolsep}{5pt}         % More space in tables.
+    \setlength{\parindent}{0pt}         % No indents on newline.
+    \RequirePackage{parskip}            % More space between paragraphs.
+    \renewcommand{\arraystretch}{1.2}   % Make tables slightly bigger
 }
 
 % -/- Setup paper look ---
@@ -327,15 +313,21 @@
 \providecommand{\Lf}{\\[7pt]}
 \providecommand{\lf}{\\[3pt]}
 
-
 % Inserts the title page with no page numbering.
 \let\oldMaketitle\maketitle
 \renewcommand{\maketitle}{\pagenumbering{gobble}\oldMaketitle\newpage\pagenumbering{arabic}}
 
-
 % Add `./images` to the graphics path
 \graphicspath{{./images}}
 
+
+% More colors!
+\providecommand{\colorA}{Cyan}
+\providecommand{\colorB}{ForestGreen}
+\providecommand{\colorC}{VioletRed}
+\providecommand{\colorD}{Dandelion}
+
+% Hyperref colors
 \hypersetup{
     colorlinks=true,
     linkcolor=black!10!blue,
@@ -343,13 +335,6 @@
     urlcolor=black!10!blue,
     linktocpage=true,
 }
-
-% Colors!
-\providecommand{\colorA}{Cyan}
-\providecommand{\colorB}{ForestGreen}
-\providecommand{\colorC}{VioletRed}
-\providecommand{\colorD}{Dandelion}
-
 
 % A better hyperlink
 \let\oldHref\href
@@ -365,6 +350,8 @@
 
 % -/- General purpose macros ---
 
+% Final construct for format file
 \ifdefined\endofdump\else
     \def\endofdump{}
 \fi
+

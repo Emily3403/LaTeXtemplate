@@ -203,12 +203,11 @@
 
     % Because of that I have included a option to not renew the environments.
     % If this definition changes, everything might be fucked. So beware!
-    \if@template@option@noRenew
 
         \renewenvironment{align}[1][]{%
         \if\relax\detokenize{#1}\relax\else\symbolset{#1}\fi
         \start@align\@ne\st@rredfalse\m@ne
-    }{%
+    } {%
         \math@cr \black@\totwidth@
         \egroup
         \ifingather@
@@ -244,8 +243,6 @@
     }{%
         \endalign
     }
-
-    \fi
 
 
     % Now we set up the brackets command.
