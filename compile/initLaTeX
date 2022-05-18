@@ -33,9 +33,9 @@ echo "%&template
 
 %\usepackage{src/template}
 
-%! Generated with commit hash: \"$last_commit\"
-%! sha1sum of template.fmt: \"$sha\"
-%! Repository URL: https://github.com/Emily3403/LaTeXtemplate
+% Generated with commit hash: \"$last_commit\"
+% sha1sum of template.fmt: \"$sha\"
+% Repository URL: https://github.com/Emily3403/LaTeXtemplate
 
 \date{$(date +"%Y -- %m -- X")}
 \useTemplate[$attrs]

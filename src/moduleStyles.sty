@@ -7,10 +7,10 @@
 \providecommand{\AOT}{%
     \title{Agententechnologie}%
     \template@credentials@make{{emily,michel,martin,amela}}
-%
-%    \renewcommand{\thesection}{}%
-%    \renewcommand\thesubsection{Aufgabe \arabic{section}.\arabic{subsection}:}%
-%    \renewcommand\thesubsubsection{(\textit{\roman{subsubsection}})}%
+    %
+    %    \renewcommand{\thesection}{}%
+    %    \renewcommand\thesubsection{Aufgabe \arabic{section}.\arabic{subsection}:}%
+    %    \renewcommand\thesubsubsection{(\textit{\roman{subsubsection}})}%
 }
 
 
@@ -24,7 +24,7 @@
     \setcounter{Exercise}{\exerciseNumber}
     \renewcommand\thesection{Aufgabe \arabic{Exercise}.\arabic{section}}%
     \renewcommand\thesubsection{\alph{subsection})}%
-%    \renewcommand\thesubsubsection{(\textit{\roman{subsubsection}})}%
+    %    \renewcommand\thesubsubsection{(\textit{\roman{subsubsection}})}%
 }
 
 
@@ -36,28 +36,28 @@
 
 \pgfkeys{
     \template@setfamily{\template@setupName},
-%
-% Here you may include your own modules.
+    %
+    % Here you may include your own modules.
     AOT/.is if=@template@option@module@AOT,
     GRS/.is if=@template@option@module@GRS,
-%
+    %
 }
 
 
 \providecommand{\digestModules}{
-% Set the modules correctly
+    % Set the modules correctly
     \if@template@option@module@AOT
-    \AOT
+        \AOT
     \fi
-%
+    %
     \if@template@option@module@GRS
-    \GRS
+        \GRS
     \fi
-%
+    %
 }
 
 
 
-%! Here are static includes from the various modules that cannot be linked dynamically.
+% Here are static includes from the various modules that cannot be linked dynamically.
 
 

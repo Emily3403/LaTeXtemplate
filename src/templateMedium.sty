@@ -1,32 +1,32 @@
-%! This template provides mostly math features
-%!
-%! Note: This package does *not* check for previous includes of "smaller" template files. It is assumed that they already got included!
-%!
-%! Provided commands:
-%!  <New column type> [M | C]
-%!  [\Tstrut | \Bstrut | \fancyEnd]
-%!
-%!  [\N | \Z | \Q | \R | \C]
-%!  [\Re | \Im]
-%!  \Max
-%!  [\ceil | \floor]
-%!
-%!  [\dx | \du | \dt | \inta | \cc]
-%!  [\e | \i | \pI]
-%!
-%!  \rest
-%!  \mathtag
-%!  [\pma | \bma]
-%!
-%!  Renewed environments:
-%!      align
-%!      align*
-%!      alignat
-%!      alignat*
-%!
-%!  \brackets
-%!    → \br
-%!    → \set
+% This template provides mostly math features
+
+% Note: This package does *not* check for previous includes of "smaller" template files. It is assumed that they already got included!
+
+% Provided commands:
+%  <New column type> [M | C]
+%  [\Tstrut | \Bstrut | \fancyEnd]
+
+%  [\N | \Z | \Q | \R | \C]
+%  [\Re | \Im]
+%  \Max
+%  [\ceil | \floor]
+
+%  [\dx | \du | \dt | \inta | \cc]
+%  [\e | \i | \pI]
+
+%  \rest
+%  \mathtag
+%  [\pma | \bma]
+
+%  Renewed environments:
+%      align
+%      align*
+%      alignat
+%      alignat*
+
+%  \brackets
+%    → \br
+%    → \set
 
 
 \NeedsTeXFormat{LaTeX2e}
@@ -62,46 +62,46 @@
 \usepackage{makecell}      % Easy to use environment
 
 
-%! more space between equations in displaystyle math
+% more space between equations in displaystyle math
 \setlength{\jot}{7pt}
 
-%! Define new column types - Centered with an option to set the width to a fixed amount.
+% Define new column types - Centered with an option to set the width to a fixed amount.
 \newcolumntype{M}[1]{>{\centering\arraybackslash$}m{#1}<{$}}
 \newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 \newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 
-%! Commands to expand the Table height. Both take an optional argument, which defaults to 18pt / 12pt respectively.
-%! These should be deprecated as arraystretch is big enough to hold text.
+% Commands to expand the Table height. Both take an optional argument, which defaults to 18pt / 12pt respectively.
+% These should be deprecated as arraystretch is big enough to hold text.
 \NewDocumentCommand{\Tstrut}{O{}}{\if\relax\detokenize{#1}\relax\rule{0pt}{18pt} \else\rule{0pt}{#1} \fi}
 \NewDocumentCommand{\Bstrut}{O{}}{\if\relax\detokenize{#1}\relax\rule[-12pt]{0pt}{0pt} \else\rule[-#1]{0pt}{0pt} \fi}
 \NewDocumentCommand{\fancyEnd}{O{} O{}}{\Tstrut[#1]\Bstrut[#2]\\\hline}
 
 \def\endIt{\\\hline}
 
-%! Define all the Number-sets like ℕ
+% Define all the Number-sets like ℕ
 \providecommand{\N}{\mathbb{N}}
 \providecommand{\Z}{\mathbb{Z}}
 \providecommand{\Q}{\mathbb{Q}}
 \providecommand{\R}{\mathbb{R}}
-%! Here, we use \def as depending on if you use LaTeX / LuaLaTeX the \C macro is already loaded.
+% Here, we use \def as depending on if you use LaTeX / LuaLaTeX the \C macro is already loaded.
 \def\C{\mathbb{C}}
 
-%! Transpose of a Matrix
+% Transpose of a Matrix
 \providecommand{\T}{^{\intercal}}
 
-%! A shortcut
+% A shortcut
 \providecommand{\ceq}{\coloneqq}
 
-%! <algorithm2e options>
+% <algorithm2e options>
 
-%! Input / Output for Algorithm
+% Input / Output for Algorithm
 \SetKwInOut{Input}{Input}
 \SetKwInOut{Output}{Output}
 \SetKw{Continue}{continue}
 \SetKw{Break}{break}
 
-%! Remove italics from if / funcs / …
+% Remove italics from if / funcs / …
 \SetArgSty{textrm}
 \SetFuncArgSty{textrm}
 \SetFuncSty{textrm}
@@ -111,13 +111,13 @@
 
 \DontPrintSemicolon
 
-%! </algorithm2e options>
+% </algorithm2e options>
 
-%! Fancy Big-O notation
+% Fancy Big-O notation
 \renewcommand{\O}{\mathcal{O}}
 
 
-%! Define Math-functions.
+% Define Math-functions.
 \let\Re\relax
 \let\Im\relax
 
@@ -128,25 +128,25 @@
 \DeclareMathOperator*{\argmax}{argmax}
 
 
-%! Make nice ⌈ x ⌉ braces.
+% Make nice ⌈ x ⌉ braces.
 \DeclarePairedDelimiter\ceil{\lceil}{\rceil}
 \DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
 
-%! Some integral macros, with an upright d.
-%!  For why the d shall be upright please visit https://physics.nist.gov/cuu/pdf/typefaces.pdf
+% Some integral macros, with an upright d.
+%  For why the d shall be upright please visit https://physics.nist.gov/cuu/pdf/typefaces.pdf
 \providecommand{\inta}[3]{\Big[ #1 \Big]_{#2}^{#3}}
 \providecommand{\dx}{\;\textnormal{d}x}
 \providecommand{\du}{\;\textnormal{d}u}
 \providecommand{\dt}{\;\textnormal{d}t}
 \providecommand{\cc}{c,\qquad c\in\R}
 
-%! e, i and π shall be uppercase, even in math-mode
-%!  https://physics.nist.gov/cuu/pdf/typefaces.pdf
+% e, i and π shall be uppercase, even in math-mode
+%  https://physics.nist.gov/cuu/pdf/typefaces.pdf
 \providecommand{\e}{\textnormal{e}}
 \renewcommand{\i}{\textnormal{i}}
 \providecommand{\pI}{\textnormal{$\pi$}}
 
-%! Make the \lim, \int, etc. always have their descriptions as if they were in display-style math.
+% Make the \lim, \int, etc. always have their descriptions as if they were in display-style math.
 \apptocmd{\lim}{\limits}{}{}
 \apptocmd{\int}{\limits}{}{}
 \apptocmd{\sum}{\limits}{}{}
@@ -161,8 +161,8 @@
 \apptocmd{\argmin}{\limits}{}{}
 
 
-%! restrict a function to a domain.
-%! Inspired by https://tex.stackexchange.com/a/22255
+% restrict a function to a domain.
+% Inspired by https://tex.stackexchange.com/a/22255
 \providecommand\rest[2]{{ % we make the whole thing an ordinary symbol
         \left.\kern-\nulldelimiterspace % automatically resize the bar with \right
             #1 % the function
@@ -170,11 +170,11 @@
             \right|_{#2} % this is the delimiter
     }}
 
-    %! Add it to the last line of a align* environment and it'll only number the last equation. Very convenient.
+    % Add it to the last line of a align* environment and it'll only number the last equation. Very convenient.
     \providecommand{\mathtag}{\addtocounter{equation}{1}\tag{\theequation}}
 
 
-    %! A command to stretch the pmatrix etc. environments with an optional argument.
+    % A command to stretch the pmatrix etc. environments with an optional argument.
     %   https://tex.stackexchange.com/questions/14071/how-can-i-increase-the-line-spacing-in-a-matrix
     \renewcommand*\env@matrix[1][\arraystretch]{%
         \edef\arraystretch{#1}%
@@ -183,14 +183,14 @@
         \array{*\c@MaxMatrixCols c}%
     }
 
-    %! Matrix () with optional spacing
+    % Matrix () with optional spacing
     \NewDocumentCommand{\pma}{O{1} m}{
         \begin{pmatrix}[#1]
             #2
         \end{pmatrix}
     }
 
-    %! Matrix [] with optional spacing
+    % Matrix [] with optional spacing
     \NewDocumentCommand{\bma}{O{1} m}{
         \begin{bmatrix}[#1]
             #2
@@ -198,11 +198,11 @@
     }
 
 
-    %! Here we renew more amsmath environments.
-    %! This might not be the best idea, as it depends on the definition of the source code (of amsmath) being constant.
-    %!
-    %! Because of that I have included a option to not renew the environments.
-    %! If this definition changes, everything might be fucked. So beware!
+    % Here we renew more amsmath environments.
+    % This might not be the best idea, as it depends on the definition of the source code (of amsmath) being constant.
+
+    % Because of that I have included a option to not renew the environments.
+    % If this definition changes, everything might be fucked. So beware!
     \if@template@option@noRenew
 
         \renewenvironment{align}[1][]{%
@@ -248,44 +248,44 @@
     \fi
 
 
-    %! Now we set up the brackets command.
-    %! Create a namespace
+    % Now we set up the brackets command.
+    % Create a namespace
     \providecommand{\template@math@bracket@name}{math bracket}
     \newif\if@template@math@bracket@nostretch
 
-    %! This is a default setter for all bracket options.
+    % This is a default setter for all bracket options.
     \providecommand{\bracketset}[1]{\template@setkey[\template@math@bracket@name]{#1}}
 
-    %! This the the macro for creating brackets around something.
-    %! Supported options are:
-    %!
-    %!  size / s = [fit (default) | big | Big | bigg | Bigg]
-    %!    → Which size are the brackets supposed to be?
-    %!          If you select fit, then #2 get surrounded by \left and \right.
-    %!    → You may also type in just a alias for `size = …` e.g. `1`.
-    %!      Aliases:
-    %!          0 → big
-    %!          1 → Big
-    %!          2 → bigg
-    %!          3 → Bigg
-    %!
-    %!  type / t = [round (default) | square | curly | abs | norm | angle]
-    %!    → Which kind of brackets should be used?
-    %!          abs:  the "normal" abs brackets like  `|x|`.
-    %!          norm: the "normal" norm brackets like `||x||`.
-    %!
-    %!    → You may also type in just a alias for `type = …` e.g. `r`.
-    %!      Aliases:
-    %!          r | ( | ) | () → round
-    %!          s | [ | ] | [] → square
-    %!          c              → curly
-    %!          |              → abs
-    %!          ||             → norm
-    %!          < | >          → angle
-    %!
-    %!  no stretch
-    %!  → If this option is selected, then the bracket will *not* be stretched.
-    %!    This means that any size option gets ignored.
+    % This the the macro for creating brackets around something.
+    % Supported options are:
+
+    %  size / s = [fit (default) | big | Big | bigg | Bigg]
+    %    → Which size are the brackets supposed to be?
+    %          If you select fit, then #2 get surrounded by \left and \right.
+    %    → You may also type in just a alias for `size = …` e.g. `1`.
+    %      Aliases:
+    %          0 → big
+    %          1 → Big
+    %          2 → bigg
+    %          3 → Bigg
+
+    %  type / t = [round (default) | square | curly | abs | norm | angle]
+    %    → Which kind of brackets should be used?
+    %          abs:  the "normal" abs brackets like  `|x|`.
+    %          norm: the "normal" norm brackets like `||x||`.
+
+    %    → You may also type in just a alias for `type = …` e.g. `r`.
+    %      Aliases:
+    %          r | ( | ) | () → round
+    %          s | [ | ] | [] → square
+    %          c              → curly
+    %          |              → abs
+    %          ||             → norm
+    %          < | >          → angle
+
+    %  no stretch
+    %  → If this option is selected, then the bracket will *not* be stretched.
+    %    This means that any size option gets ignored.
 
 
     \pgfkeys{
@@ -360,7 +360,7 @@
         \brackets[type=curly, #1]{#2}
     }
 
-    %! This is the macro that does the magic. Actually pgfkeys does most of the magic, but I'll take that!
+    % This is the macro that does the magic. Actually pgfkeys does most of the magic, but I'll take that!
     \providecommand{\brackets}[2][]{
         \template@setkey[\template@math@bracket@name]{#1}
         \template@setkey[\template@math@bracket@name]{size/.eval}

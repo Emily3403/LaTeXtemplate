@@ -11,14 +11,13 @@
 %
 % Extensions to the etoolbox's toggle mechanism
 
-% \iftesttrue{<always>}{<never>}
+% \Iftesttrue{<always>}{<never>}
 % \iftestfalse{<never>}{<always>}
 %
 % Respectively, true/false constant tests that always expand to the first/second
 % argument.
 %
-\newcommand\iftesttrue{}  \let\iftesttrue\@firstoftwo
-\newcommand\iftestfalse{} \let\iftestfalse\@secondoftwo
+
 
 % \deftoggle{<toggle>}{\test}
 %
@@ -26,16 +25,16 @@
 % is determined by evaluating the given `\test` instead.
 %
 \newrobustcmd*{\deftoggle}[2]{%
-    \ifcsdef{etb@tgl@#1}
+    \Ifcsdef{etb@tgl@#1}
     {\csdef{etb@tgl@#1}{#2}}
-    {\etb@noglobal\etb@err@notoggle{#1}}}
+{\etb@noglobal\etb@err@notoggle{#1}}}
 
 % \linktoggle{<toggle>}{<linked-toggle>}
 %
 % Instead of having a fixed value, whenever the `<toggle>` is evaluated, its value
 % is determined by evaluating the `<linked-toggle>` instead.
 %
-\newcommand*{\linktoggle}[2]{\deftoggle{#1}{\iftoggle{#2}}}
+\newcommand*{\linktoggle}[2]{\deftoggle{#1}{\Iftoggle{#2}}}
 
 % Low level pgfkeys extensions
 % ============================
@@ -47,7 +46,7 @@
 % Raises an error if `<full-key>` is not defined.
 %
 \newcommand*\pgfkeysrequire[1]{\pgfkeysifdefined{#1}{}{%
-    \PackageError{ezkeys}{Unknown key `#1'. Perhaps you misspelled it}{}}}
+\PackageError{ezkeys}{Unknown key `#1'. Perhaps you misspelled it}{}}}
 
 % \pgfkeysusevalue{<full-key>}
 %
@@ -61,7 +60,7 @@
 % Tests whether the value stored at `<full-key>` is or not empty. An error is raised
 % if the key is not currently storing a value.
 %
-\newcommand*\pgfkeysifempty[1]{\pgfkeysrequire{#1}\ifcsempty{pgfk@#1}}
+\newcommand*\pgfkeysifempty[1]{\pgfkeysrequire{#1}\Ifcsempty{pgfk@#1}}
 
 % \pgfkeysprovidevalue{<full-key>}{<value>}
 %
@@ -167,9 +166,9 @@
 %   author,title,date
 %
 \pgfkeys{/handlers/.append list/.code={%
-    \pgfkeysifempty\pgfkeyscurrentpath%
-    {\pgfkeysalso{\pgfkeyscurrentpath=#1}}%
-    {\pgfkeysalso{\pgfkeyscurrentpath/.append={,#1}}}}}
+        \pgfkeysifempty\pgfkeyscurrentpath%
+        {\pgfkeysalso{\pgfkeyscurrentpath=#1}}%
+{\pgfkeysalso{\pgfkeyscurrentpath/.append={,#1}}}}}
 
 % Key handler `<key>/.is code choice`
 %
@@ -218,10 +217,10 @@
         .ecode={%
             \noexpand\pgfkeysifdefined{\pgfkeysdefaultpath##1/.@cmd}{%
                 \noexpand\pgfkeysalso{\pgfkeysdefaultpath.eval/.code=%
-                    \noexpand\pgfkeysusecode{\pgfkeysdefaultpath##1}{####1}}%
+                \noexpand\pgfkeysusecode{\pgfkeysdefaultpath##1}{####1}}%
             }{%
                 \noexpand\pgfkeysalso{/errors/unknown choice value={\pgfkeysdefaultpath}{##1}}%
-            }}}}
+}}}}
 
 % Fix a bug in the `/errors/unknown choice value={offending key}{value}` key
 % https://sourceforge.net/tracker/?func=detail&aid=3582837&group_id=142562&atid=752792
@@ -265,7 +264,7 @@
         .is choice,
         true/.ecode  = \noexpand\toggletrue{\ez@togglename},
         false/.ecode = \noexpand\togglefalse{\ez@togglename},
-        .default    = true}}
+.default    = true}}
 
 \pgfkeys{/handlers/.toggle test/.code=\deftoggle{\pgfkeyscurrentpath}{#1}}
 \pgfkeys{/handlers/.toggle link/.code=\linktoggle{\pgfkeyscurrentpath}{#1}}
@@ -274,3 +273,4 @@
 \pgfkeys{/handlers/.add toggles/.code=\pgfkeys{\pgfkeyscurrentpath/.add toggle/.list={#1}}}
 
 \endinput
+
