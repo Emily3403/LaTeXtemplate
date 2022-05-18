@@ -1,0 +1,105 @@
+%! Author = emily
+%! Date = 18.05.22
+
+% TODO: Write a python script which automatically checks tests.
+
+% Preamble
+\documentclass[11pt]{article}
+
+\usepackage{src/template}
+\usepackage{amsmath}
+\useTemplate
+
+% Packages
+\date{}
+\title{}
+
+% Document
+\begin{document}
+
+\begin{align}
+    \begin{array}{c|c|c}
+        a& b & c
+    \end{array}
+\end{align}
+
+\begin{align}
+    \begin{array}{M{4em}|L{5em}|C{23em}|R{2em}}
+        a & b & c & d \Tstrut \Bstrut
+    \end{array}
+\end{align}
+
+\begin{algorithm}[H]
+    \def\smallSkip{3pt}
+    \def\medSkip{7pt}
+    \setstretch{1.17}
+
+    \KwData{Menge an $n > 3$ Punkten $P = [ (x_1, y_1), (x_2, y_2), \dots, (x_n, y_n) ]$}
+    \KwResult{Kosten $m$ einer günstigsten Plottertour}\vspace{\medSkip}
+    $A[1 \ldots n,1 \dots n] \gets $ $n \times n$ array\;
+    $A[1,2] \gets \delta(P[1],P[2])$\label{alg:opt triv start}\;%
+    \For{$j \gets 3, \dots, n$}{
+        \For{$i \gets 1, \dots, j-2$}{\label{alg:opt opt i+1 start}
+            $A[i,j] \gets A[i,j-1] + \delta(P[j-1], P[j])$\;
+        }\label{alg:opt opt i+1 end}
+        $A[j-1,j] \gets \min_{k \in \set{1, \dots, j-2}} A[k,j-1] + \delta(P[k],P[j])$\label{alg: first min}\label{alg:inner min}\;
+    }
+    \Return $\min_{k \in \set{1, \dots, n-1}} A[k,n] + \delta(P[k],P[n])$\label{alg:end all}\;
+    \vspace{\medSkip}
+    \caption{Berechnet Kosten einer günstigsten Plottertour}
+\end{algorithm}
+
+\newpage
+If we restrict $f$ as follows
+\begin{align*}[]
+    &\rest{f}{a\to b}  \\
+    =& f(x)  \mathtag
+\end{align*}
+
+\begin{align}
+    \pma[1.3]{a & b & c\\d & e & f}
+\end{align}
+
+\begin{align}[]
+    &1    \\
+    &\br{1}\\
+    &\br[0]{1}\\
+    &\br[1]{1}\\
+    &\br[2]{1}\\
+    &\br[3]{1}\lf
+    %
+    &\br[s]{1}\\
+    &\br[c]{1}\\
+    &\br[|]{1}\\
+    &\br[||]{1}\\
+    &\br[a]{1}\lf
+    %
+    &\br{\int_{a}^{b} }
+\end{align}
+
+\def\testCommand#1{
+    \begin{align*}
+        A &#1[over=abc] B\\
+        A &#1[over=abc, under=def] B\\
+        A &#1[over=abc, under=aaaaaa] B\\
+        A &#1[over=abc, kern=40] B\\
+        A &#1[over=abc, no stretch] B\\
+        A &#1[over=abc, neg] B\\
+        %
+        A #1[over=abc, align] B\\
+        A #1[over=abc, under=def, align] B\\
+        A #1[over=abc, under=aaaaaa, align] B\\
+        A #1[over=abc, kern=40, align] B\\
+        A #1[over=abc, no stretch, align] B\\
+        A #1[over=abc, neg, align] B\\
+    \end{align*}
+%
+}
+
+\testCommand{\LRA}
+\testCommand{\RA}
+\testCommand{\xequal}
+\testCommand{\xequiv}
+
+
+\end{document}
