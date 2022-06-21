@@ -5,8 +5,8 @@ if [ -n "$1" ]; then
         AOT)
             attrs="AOT, german"
             ;;
-        GRS)
-            attrs="GRS, german"
+        PPL)
+            attrs="PPL, german"
             ;;
         *)
             attrs=""
@@ -23,14 +23,13 @@ cd "$cwd" || exit
 
 ln -s "$HOME/Documents/Programs/LaTeX/emily_template/compile/template.fmt" .
 ln -s "$HOME/Documents/Programs/LaTeX/emily_template/src/" .
+mkdir -p out
 
 echo "%&template
 \endofdump
 
 %\documentclass[11pt]{article}
 %\usepackage{template}
-%\useTemplateStatic[all]
-
 %\usepackage{src/template}
 
 % Generated with commit hash: \"$last_commit\"
