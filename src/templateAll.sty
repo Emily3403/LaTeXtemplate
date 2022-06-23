@@ -339,12 +339,6 @@
 }
 
 
-% Usage:
-%   First define the Macro \Questions appropriatly. See the examples for more details on how to do that.
-%   Afterwards you can call \makeQuestionsAndAnswers.
-
-
-
 % This counter represents the number of times the \makeQuestionsAndAnswers macro has been called. This is needed due to the fact that labels have to be unique and a number that increments every time does indeed fulfil this purpose.
 \newcounter{template@q+a@labelCounter}
 \newcounter{template@q+a@globalCount}
@@ -353,14 +347,14 @@
 % This is a boolean value that defines if answers should be printed.
 \def\template@questions@makeAnswers{1}
 
-% #1 = Optional overwrite for "Fragen Kaptiel {#1}"
-
 \def\makeStarSec#1{
     \phantomsection
     \addcontentsline{toc}{section}{#1}
     \section*{#1}
 }
 
+% #1 = Optional overwrite for "Fragen Kaptiel {#1}"
+% #2 = pgffor string to parse. See `tests/questionsAndAnswers.tex` for examples.
 \newcommand{\makeQuestionsAndAnswers}[2][]{
     % Check if an overwrite for the heading is supplied. If so, use it.
     \if\relax\detokenize{#1}\relax
