@@ -379,14 +379,17 @@
     \makeStarSec{Fragen \heading}
     %
     % Now make the Questions
-    \foreach[count=\i] \Q/\A in {#2} {%
+    \foreach[count=\i] \Q/\_ in {#2} {%
         \par%
-        \hyperref[\makeAnswerLabel{\i}]{\textbf{Frage \i}}%
-        \ifnum\template@questions@makeAnswers=0\else
+        \ifnum\template@questions@makeAnswers=0
+            \textbf{Frage \i}
+        \else
+            \hyperref[\makeAnswerLabel{\i}]{\textbf{Frage \i}}%
             \refstepcounter{template@q+a@globalCount}\label{\makeQuestionLabel{\i}}%
         \fi
         %
         \par\Q%
+        \typeout{AAA \Q}
     }
     %
     % Maybe make Answers

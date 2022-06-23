@@ -6,6 +6,7 @@
 
 % Packages
 \usepackage{src/template}
+\usepackage{templateAll}
 
 \useTemplate[german]
 
@@ -20,97 +21,99 @@
     \tableofcontents
 
 \makeQuestionsAndAnswers[2]{
-{{Abgrenzung des Begriffs Agent zu „Objekt“, „Roboter“ und „Expertensystem“: wo existieren Gemeinsamkeiten, wo Unterschiede?}
-/
+{Abgrenzung des Begriffs Agent zu „Objekt“, „Roboter“ und „Expertensystem“: wo existieren Gemeinsamkeiten, wo Unterschiede?}/
 {
-\begin{itemize}
-    \item Definition Agent: Ein Agent ist in eine Umgebung eingebtettet. Er wirkt in ihr indem er sie wahrnimmt und durch selbstständige Aktionen verändert. Agenten haben nicht immer eine statische Umgebung.
-    \item Expertensysteme (sind KI) sind keine Agenten, sie warten nur auf Usereingaben. Nicht zwingend eingebettet! KI hat eine statische Umgebung.
-    \item Roboter sind nicht zwangsweise selbsthandelnd. Roboter lassen sich nicht zentral steuern. Für Roboter ist jede Situation vorhersehbar.
-    \item Obejekt: Dinge die Agenten beobachten können. Man kann mit dem Objekt nur beschränkt kommunizieren.
-\end{itemize}
-}},
+    \begin{itemize}
+        \item Definition Agent: Ein Agent ist in eine Umgebung eingebtettet. Er wirkt in ihr indem er sie wahrnimmt und durch selbstständige Aktionen verändert. Agenten haben nicht immer eine statische Umgebung.
+        \item Expertensysteme (sind KI) sind keine Agenten, sie warten nur auf Usereingaben. Nicht zwingend eingebettet! KI hat eine statische Umgebung.
+        \item Roboter sind nicht zwangsweise selbsthandelnd. Roboter lassen sich nicht zentral steuern. Für Roboter ist jede Situation vorhersehbar.
+        \item Obejekt: Dinge die Agenten beobachten können. Man kann mit dem Objekt nur beschränkt kommunizieren.
+    \end{itemize}
+},
 %
-{{Über welche Eigenschaften werden „Agenten“ beschrieben? Verdeutlichen Sie die Eigenschaften durch aussagekräftige Beispiele.}
-/
+{Über welche Eigenschaften werden „Agenten“ beschrieben? Verdeutlichen Sie die Eigenschaften durch aussagekräftige Beispiele.}/
 {
-Agenten machen autonome Aktionen. Beispiel:
-Zentrale Eigenschaften:
-\begin{enumerate}
-    \item Autonom
-    \item Sozial
-    \item Proaktiv
-    \item Reaktiv
-\end{enumerate}
-Beispiel: Autonomes Auto: Reaktiv: Kann ausweichen. Sozial: Es kann mit anderen Autos seine Geschwindigkeit abstimmen. Autonom: Es trifft seine Routenentscheidungen durch gegebene Parameter selbstständig.
-Proaktiv: Es fährt Spritsparend / zur Tanke, wenn nötig.
-}},
+    Agenten machen autonome Aktionen. Beispiel:
+    Zentrale Eigenschaften:
+    \begin{enumerate}
+        \item Autonom
+        \item Sozial
+        \item Proaktiv
+        \item Reaktiv
+    \end{enumerate}
+    Beispiel: Autonomes Auto: Reaktiv: Kann ausweichen. Sozial: Es kann mit anderen Autos seine Geschwindigkeit abstimmen. Autonom: Es trifft seine Routenentscheidungen durch gegebene Parameter selbstständig.
+    Proaktiv: Es fährt Spritsparend / zur Tanke, wenn nötig.
+},
 %
-{{Diskutieren Sie den Begriff der Rationalität (rationales Handeln) im Zusammenhang mit a) dem Wissen und b) den Aktionen des Agenten.}
-/
+{Diskutieren Sie den Begriff der Rationalität (rationales Handeln) im Zusammenhang mit a) dem Wissen und b) den Aktionen des Agenten.}/
 {
-Rationaltiät des Agenten ist durch sein Wissen und Wahrnehmung begrenzt. Jeder Agent kann nur nach seinem Wissen Rational handeln. Um die Handlung zu bestimmen brauchen dieser eine Nutzenfuntkion oder ein Perofmance Maß. Er versuch die Nutzenfunktion zu maximieren.
-Rationales handeln heißt Nutzenfunktion maximieren.
-Handeln kann individuell Rational (für sich selbst förderlich) oder auf die Gesamtsituation ( für alle Agenten) betrachtet Rational sein.
-}},
+    Rationaltiät des Agenten ist durch sein Wissen und Wahrnehmung begrenzt. Jeder Agent kann nur nach seinem Wissen Rational handeln. Um die Handlung zu bestimmen brauchen dieser eine Nutzenfuntkion oder ein Perofmance Maß. Er versuch die Nutzenfunktion zu maximieren.
+    Rationales handeln heißt Nutzenfunktion maximieren.
+    Handeln kann individuell Rational (für sich selbst förderlich) oder auf die Gesamtsituation ( für alle Agenten) betrachtet Rational sein.
+},
 %
-{{Erklären Sie anhand von Beispielen die Begriffe Maximum Expected Utility und Bounded Rationality. Warum ist begrenzte Rationalität normalerweise besser geeignet um Handlungen / Ergebnisse eines Agenten zu bewerten?}
-/
-{Maximum Expected Utility: Ich Versuche ein Optimum zu finden. Funktioniert in ökonomischen Szenarien ok. Sonst wegen begrenztem Wissen eher schrwierig. Man brauch nämlich nahezu vollst. Wissen über die Umgebung.
-Hier besser: begrenzte Rationalität. Informationen sind begrenzt, daher kann nur eine "geratene" Entscheidung getroffen werden.
-Absicht: Nutzenmaximierung, aber begrenzte Kognitive Fähigkeiten. Einsatz von Heuristiken.}},
-%
-{{Charakterisieren Sie die Umgebungsmerkmale für folgende Agenten: Schachcomputer, Taxifahrer, Marsroboter, Aktienhändler, Avatar, Haushaltsroboter.}
-/
+{Erklären Sie anhand von Beispielen die Begriffe Maximum Expected Utility und Bounded Rationality. Warum ist begrenzte Rationalität normalerweise besser geeignet um Handlungen / Ergebnisse eines Agenten zu bewerten?}/
 {
-Info:
-\begin{itemize}
-    \item Vollständige vs Partielle Wahrnehmung
-    \item Deterministisch vs Nichtdeterministisch
-    \item Episodisch vs Sequentiell
-    \item Statisch vs Dynamisch
-    \item Diskret vs Kontinuierlich
-\end{itemize}
-Antwort:
-\begin{itemize}
-    \item Schachcomputer: vollst. Wahrnehmbar; nicht deterministisch; Sequentiell, ein Spiel an sich ist aber Episodisch; statisch; diskret;
-    \item Taxifahrer: part. Wahrnehmbar; Nichtdeterministisch; Fahrgast -> Episodisch, Umgebung -> Sequentiell; Dynamisch; Kontinuierlich
-\end{itemize}}},
+    Maximum Expected Utility: Ich Versuche ein Optimum zu finden. Funktioniert in ökonomischen Szenarien ok. Sonst wegen begrenztem Wissen eher schrwierig. Man brauch nämlich nahezu vollst. Wissen über die Umgebung.
+    Hier besser: begrenzte Rationalität. Informationen sind begrenzt, daher kann nur eine "geratene" Entscheidung getroffen werden.
+    Absicht: Nutzenmaximierung, aber begrenzte Kognitive Fähigkeiten. Einsatz von Heuristiken.
+},
 %
-{{Geben Sie Beispiele für Agenten, bei denen a) Autonomie, b) Proaktivität, c) Reaktivität und d) Kommunikation i) besonders stark und ii) besonders schwach ausgeprägt sind.}
-/
+{Charakterisieren Sie die Umgebungsmerkmale für folgende Agenten: Schachcomputer, Taxifahrer, Marsroboter, Aktienhändler, Avatar, Haushaltsroboter.}/
 {
-\begin{tabular}[h]{l|c|c}
-& i)stark & ii)schwach \\
-\hline
-a) Autonomie & Marsroboter, Pflegeroboter & Siri \\
-b) Proaktivität & \TODO & Staubsaugroboter, Temp. Steuerung \\
-c) Reaktivität & Robo-Cap, & \TODO \\
-d) Kommunikation & EBay, Autonomes Fahren & Marsroboter, Staubsaugerroboter \\
-\end{tabular}}}%
+    Info:
+    \begin{itemize}
+        \item Vollständige vs Partielle Wahrnehmung
+        \item Deterministisch vs Nichtdeterministisch
+        \item Episodisch vs Sequentiell
+        \item Statisch vs Dynamisch
+        \item Diskret vs Kontinuierlich
+    \end{itemize}
+    Antwort:
+    \begin{itemize}
+        \item Schachcomputer: vollst. Wahrnehmbar; nicht deterministisch; Sequentiell, ein Spiel an sich ist aber Episodisch; statisch; diskret;
+        \item Taxifahrer: part. Wahrnehmbar; Nichtdeterministisch; Fahrgast -> Episodisch, Umgebung -> Sequentiell; Dynamisch; Kontinuierlich
+    \end{itemize}
+},
+%
+{Geben Sie Beispiele für Agenten, bei denen a) Autonomie, b) Proaktivität, c) Reaktivität und d) Kommunikation i) besonders stark und ii) besonders schwach ausgeprägt sind.}/
+{
+    \begin{tabular}[h]{l|c|c}
+    & i)stark & ii)schwach \\
+    \hline
+    a) Autonomie & Marsroboter, Pflegeroboter & Siri \\
+    b) Proaktivität & \TODO & Staubsaugroboter, Temp. Steuerung \\
+    c) Reaktivität & Robo-Cap, & \TODO \\
+    d) Kommunikation & EBay, Autonomes Fahren & Marsroboter, Staubsaugerroboter \\
+    \end{tabular}
+}
+%
+%
 }
 
 
-    \makeQuestionsAndAnswers[3]{
-{{Gegeben eine strategische Situation (Spiel in Normalform). Wie gehen Sie vor?}
-/
+\makeQuestionsAndAnswers[3]{
+{Gegeben eine strategische Situation (Spiel in Normalform). Wie gehen Sie vor?}/
 {
-\todo}},
+    \todo
+},
 %
-{{Warum ist es in sequenziellen Spielen wichtig, an allen Entscheidungsknoten die jeweils beste Entscheidung zu wählen, auch wenn der Knoten nicht auf einem Gleichgewichtspfad liegt?}
-/
+{Warum ist es in sequenziellen Spielen wichtig, an allen Entscheidungsknoten die jeweils beste Entscheidung zu wählen, auch wenn der Knoten nicht auf einem Gleichgewichtspfad liegt?}/
 {
-\todo}},
+    \todo
+},
 %
-{{Welches Problem ergibt sich, wenn ein Spiel mehrere Nash-Gleichgewichte hat? Welche Lösungsvorschläge haben Sie?}
-/
+{Welches Problem ergibt sich, wenn ein Spiel mehrere Nash-Gleichgewichte hat? Welche Lösungsvorschläge haben Sie?}/
 {
-\todo}},
+    \todo
+},
 %
-{{Was ist der Unterschied zwischen einer dominanten Lösung und einem Nash-Gleichgewicht?}
-/
+{Was ist der Unterschied zwischen einer dominanten Lösung und einem Nash-Gleichgewicht?}/
 {
-\todo}}
+    \todo
+}
+%
+%
 }
 
 
@@ -119,64 +122,65 @@ d) Kommunikation & EBay, Autonomes Fahren & Marsroboter, Staubsaugerroboter \\
 % <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 \makeQuestionsAndAnswers[4]{
-{{Wo steckt die Intelligenz bei einem reaktiven Agenten? (Wie) kann er sich rational verhalten?}
-/
+{Wo steckt die Intelligenz bei einem reaktiven Agenten? (Wie) kann er sich rational verhalten?}/
 {
-\todo}},
+    \todo
+},
 %
-{{Diskutieren Sie den Begriff der Rationalität an folgenden Beispielen: a) einfacher Thermostat an einem Heizungskörper; b) „intelligenter“, vernetzter Thermostat in einem modernen Wohnumfeld (reguliert Temperatur anhand der bekannten Vorlieben der im Raum befindlichen Personen und der Außentemperatur).}
-/
+{Diskutieren Sie den Begriff der Rationalität an folgenden Beispielen: a) einfacher Thermostat an einem Heizungskörper; b) „intelligenter“, vernetzter Thermostat in einem modernen Wohnumfeld (reguliert Temperatur anhand der bekannten Vorlieben der im Raum befindlichen Personen und der Außentemperatur).}/
 {
-\todo}},
+    \todo
+},
 %
-{{Welche Mechanismen/Wirkprinzipien treten in der Schwarmintelligenz auf?}
-/
+{Welche Mechanismen/Wirkprinzipien treten in der Schwarmintelligenz auf?}/
 {
-\todo}},
+    \todo
+},
 %
-%
-{{Wie löst man mit Ant Colony Optimisation kombinatorische Optimierungsprobleme? Welche Vorteile und welche Nachteile ergeben sich bei diesem Ansatz?}
-/
+{Wie löst man mit Ant Colony Optimisation kombinatorische Optimierungsprobleme? Welche Vorteile und welche Nachteile ergeben sich bei diesem Ansatz?}/
 {
-\todo}},
+    \todo
+},
 %
-{{Skizzieren Sie ein Agentenprogramm für einen Reinigungsroboter mit einer a) zustandslosen reaktiven Architektur, b) zustandsbehafteten reaktiven Architektur. (Welche Wahrnehmungen und Aktionen, welches Wissen, welche Regeln hat ein solcher Agent?)}
-/
+{Skizzieren Sie ein Agentenprogramm für einen Reinigungsroboter mit einer a) zustandslosen reaktiven Architektur, b) zustandsbehafteten reaktiven Architektur. (Welche Wahrnehmungen und Aktionen, welches Wissen, welche Regeln hat ein solcher Agent?)}/
 {
-\todo}}
+    \todo
+}
+%
+%
 }
 
-
 % <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 % <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 % <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
+%
 \makeQuestionsAndAnswers[5]{
-{{Welches Wissen wird für die Koordination benötigt?}
-/
+{Welches Wissen wird für die Koordination benötigt?}/
 {
-\todo}},
+    \todo
+},
 %
-{{Wann ist ein System koordiniert? Diskutieren Sie den Zustand der Koordiniertheit, a) aus Sicht eines einzelnen Agenten und b) aus Sicht des gesamten MAS anhand geeigneter Beispiele aus der Domäne a) flexible Fabrik, b) Fahrstuhlsteuerung, c) Electronic Commerce.}
-/
+{Wann ist ein System koordiniert? Diskutieren Sie den Zustand der Koordiniertheit, a) aus Sicht eines einzelnen Agenten und b) aus Sicht des gesamten MAS anhand geeigneter Beispiele aus der Domäne a) flexible Fabrik, b) Fahrstuhlsteuerung, c) Electronic Commerce.}/
 {
-\todo}},
+    \todo
+},
 %
-{{Wie wird Koordinationsbedarf erkannt?}
-/
+{Wie wird Koordinationsbedarf erkannt?}/
 {
-\todo}},
+    \todo
+},
 %
-%
-{{Diskutieren Sie die Vor- und Nachteile direkter und indirekter (z.B. pheromonbasierter) Kommunikation in (unterschiedlichen Szenarien: kooperative Goldsuche versus Contest) der MAS-Gridworld.}
-/
+{Diskutieren Sie die Vor- und Nachteile direkter und indirekter (z.B. pheromonbasierter) Kommunikation in (unterschiedlichen Szenarien: kooperative Goldsuche versus Contest) der MAS-Gridworld.}/
 {
-\todo}},
+    \todo
+},
 %
-{{Wo liegen (warum) die Grenzen maschinellen Lernens in Multiagentensystemen?}
-/
+{Wo liegen (warum) die Grenzen maschinellen Lernens in Multiagentensystemen?}/
 {
-\todo}}
+    \todo
+}
+%
+%
 }
 
 
@@ -185,85 +189,87 @@ d) Kommunikation & EBay, Autonomes Fahren & Marsroboter, Staubsaugerroboter \\
 % <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 \makeQuestionsAndAnswers[6]{
-{{Beschreiben Sie die 4 Phasen des kooperativen Problemlösens beim Task Sharing. Welche Ihnen bekannten Techniken können in welcher Phase eingesetzt werden?}
-/
+{Beschreiben Sie die 4 Phasen des kooperativen Problemlösens beim Task Sharing. Welche Ihnen bekannten Techniken können in welcher Phase eingesetzt werden?}/
 {
-\todo}},
+    \todo
+},
 %
-{{Vergleichen Sie den kooperativen Problemlöseprozess mit Client-Server-Computing. Inwieweit ist kooperatives Problemlösen flexibler?}
-/
+{Vergleichen Sie den kooperativen Problemlöseprozess mit Client-Server-Computing. Inwieweit ist kooperatives Problemlösen flexibler?}/
 {
-\todo}},
+    \todo
+},
 %
-{{Woher kennt ein Agent seine Interaktionspartner – bzw. wie lernt er sie kennen?}
-/
+{Woher kennt ein Agent seine Interaktionspartner – bzw. wie lernt er sie kennen?}/
 {
-\todo}},
+    \todo
+},
 %
-{{Wie würden Sie das Maß an „Koordiniertheit“ beim Task Sharing messen bzw. beurteilen?}
-/
+{Wie würden Sie das Maß an „Koordiniertheit“ beim Task Sharing messen bzw. beurteilen?}/
 {
-\todo}},
+\todo
+},
 %
-{{Wann ist Task Sharing nicht geeignet? Diskutieren Sie diese Frage anhand a) der Umgebungsmerkmale, b) der Agenteneigenschaften.}
-/
+{Wann ist Task Sharing nicht geeignet? Diskutieren Sie diese Frage anhand a) der Umgebungsmerkmale, b) der Agenteneigenschaften.}/
 {
-\todo}},
+    \todo
+},
 %
-{{Diskutieren Sie die Principal-Agent-Problematiken anhand des Brokering-Interaktionsprotokolls}
-/
+{Diskutieren Sie die Principal-Agent-Problematiken anhand des Brokering-Interaktionsprotokolls}/
 {
-\todo}},
+    \todo
+},
 %
-{{Welche Möglichkeiten der "Sabotage" besitzen a) der Manager und b) der Participant beim (iterierten) Contract Net Protokoll?}
-/
+{Welche Möglichkeiten der "Sabotage" besitzen a) der Manager und b) der Participant beim (iterierten) Contract Net Protokoll?}/
 {
-\todo}},
+    \todo
+},
 %
-{{In welchen Fällen ist Task Sharing nicht geeignet? Nennen und begründen Sie anhand der a) Agenteneigenschaften, b) Umgebungseigenschaften.}
-/
+{In welchen Fällen ist Task Sharing nicht geeignet? Nennen und begründen Sie anhand der a) Agenteneigenschaften, b) Umgebungseigenschaften.}/
 {
-\todo}},
+    \todo
+},
 %
-{{Erklären Sie Task Sharing und Result Sharing anhand geeigneter Beispiele in der Domäne a) Fertigungssteuerung (flexible Fabrik), b) Fahrstuhlsteuerung.}
-/
+{Erklären Sie Task Sharing und Result Sharing anhand geeigneter Beispiele in der Domäne a) Fertigungssteuerung (flexible Fabrik), b) Fahrstuhlsteuerung.}/
 {
-\todo}},
+    \todo
+},
 %
-{{Erklären Sie den Begriff „Informationsasymmetrie“ aus der Principal-Agent-Theorie anhand des a) Recruiting-Interaktionsprotokolls, b) Contract-Net-Protokolls.}
-/
+{Erklären Sie den Begriff „Informationsasymmetrie“ aus der Principal-Agent-Theorie anhand des a) Recruiting-Interaktionsprotokolls, b) Contract-Net-Protokolls.}/
 {
-\todo}},
+   \todo
+},
 %
-{{Diskutieren Sie Unterschiede der Informationsasymmetrie(n) im iterierten Contract-Net-Protokoll gegenüber dem einfachen Contract-Net-Protokoll.}
-/
+{Diskutieren Sie Unterschiede der Informationsasymmetrie(n) im iterierten Contract-Net-Protokoll gegenüber dem einfachen Contract-Net-Protokoll.}/
 {
-\todo}},
+    \todo
+},
 %
-{{Diskutieren Sie das Problem der Mehrfacherledigung identischer Aufgaben im Task Sharing. (Wie) kann die wiederholte Ausführung vermieden werden?}
-/
+{Diskutieren Sie das Problem der Mehrfacherledigung identischer Aufgaben im Task Sharing. (Wie) kann die wiederholte Ausführung vermieden werden?}/
 {
-\todo}},
+    \todo
+},
 %
-{{Delegation kann über viele Stufen (auch Zyklen) erfolgen. Welche Probleme können dabei auftreten? Skizzieren Sie Lösungsansätze.}
-/
+{Delegation kann über viele Stufen (auch Zyklen) erfolgen. Welche Probleme können dabei auftreten? Skizzieren Sie Lösungsansätze.}/
 {
-\todo}},
+    \todo
+},
 %
-{{Vergleichen Sie die Aspekte der a) Optimalität, b) Performance, c) Fehlertoleranz bei den Protokollen i) Requesting, ii) Brokering, iii) Contract-Net.}
-/
+{Vergleichen Sie die Aspekte der a) Optimalität, b) Performance, c) Fehlertoleranz bei den Protokollen i) Requesting, ii) Brokering, iii) Contract-Net.}/
 {
-\todo}},
+    \todo
+},
 %
-{{Unter welchen Bedingungen ist FIPA-Brokering das bevorzugte Interaktionsprotokoll?}
-/
+{Unter welchen Bedingungen ist FIPA-Brokering das bevorzugte Interaktionsprotokoll?}/
 {
-\todo}},
+    \todo
+},
 %
-{{Erklären Sie die Aussage: „Beim erweiterten Contract Net Protokoll können die beteiligten Agenten, anders als beim normalen CNP, auf zukünftige Ereignisse geeignet reagieren.“}
-/
+{Erklären Sie die Aussage: „Beim erweiterten Contract Net Protokoll können die beteiligten Agenten, anders als beim normalen CNP, auf zukünftige Ereignisse geeignet reagieren.“}/
 {
-\todo}}
+    \todo
+}
+%
+%
 }
 
 
@@ -272,30 +278,32 @@ d) Kommunikation & EBay, Autonomes Fahren & Marsroboter, Staubsaugerroboter \\
 % <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 \makeQuestionsAndAnswers[7]{
-{{Vergleichen Sie Task Sharing und Result Sharing, indem Sie die wichtigsten Gemeinsamkeiten, Unterschiede, Vor- und Nachteile nennen und kurz begründen.}
-/
+{Vergleichen Sie Task Sharing und Result Sharing, indem Sie die wichtigsten Gemeinsamkeiten, Unterschiede, Vor- und Nachteile nennen und kurz begründen.}/
 {
-\todo}},
+    \todo
+},
 %
-{{Schildern Sie die Funktionsweise eines Blackboards.}
-/
+{Schildern Sie die Funktionsweise eines Blackboards.}/
 {
-\todo}},
+    \todo
+},
 %
-{{Vergleichen Sie Task Sharing und Result Sharing im Hinblick auf nicht kooperative und antagonistische (feindlich gesinnte) Agenten. Welches der Verfahren funktioniert besser bei Konkurrenz, falschen Ergebnissen oder sogar lügenden Agenten?}
-/
+{Vergleichen Sie Task Sharing und Result Sharing im Hinblick auf nicht kooperative und antagonistische (feindlich gesinnte) Agenten. Welches der Verfahren funktioniert besser bei Konkurrenz, falschen Ergebnissen oder sogar lügenden Agenten?}/
 {
-\todo}},
+    \todo
+},
 %
-{{Diskutieren Sie den Einfluss nutzenoptimierender Agenten im Task Sharing und im Result Sharing.}
-/
+{Diskutieren Sie den Einfluss nutzenoptimierender Agenten im Task Sharing und im Result Sharing.}/
 {
-\todo}},
+    \todo
+},
 %
-{{In welchen Fällen ist Result Sharing nicht geeignet?}
-/
+{In welchen Fällen ist Result Sharing nicht geeignet?}/
 {
-\todo}}
+\todo
+}
+%
+%
 }
 
 
@@ -304,115 +312,123 @@ d) Kommunikation & EBay, Autonomes Fahren & Marsroboter, Staubsaugerroboter \\
 % <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 \makeQuestionsAndAnswers[8]{
-{{Welche Mechanismusdesignziele sind für Auktionen besonders wichtig?}
+{Welche Mechanismusdesignziele sind für Auktionen besonders wichtig?}/
+{
+    Skript Seite 69.
+    \begin{enumerate}
+        \item Garantierter Erfolg -> Liefert eindeutiges Ergebnis
+        \item Effizienz -> Der Zuschlag geht an den Bieter mit der höchsten Wertschätzung. Effizienz entspricht also der aus der Spieltheorie bekannten Pareto-Effizienz. 3.1.5
+        \item Stabilität gegenüber Kollusionen -> Stabil gegen Manipulation
+    \end{enumerate}
+    Alle Mechanismen funktionieren besonders bei starker Konkurenz
+},
+%
+{Welche Möglichkeiten hat eine Auktionatorin um ihre Erlöse zu steigern?}/
+{
+    \begin{enumerate}
+        \item englische Auktion -> Auktionatorin setzt einen Bieter ein der die Gebote gezielt hochbietet.
+        \item Holländisch -> nicht möglich als Auktionatorin
+        \item Direkte Erstpreisauktion -> "Göethe"-Beispiel Preis in erster Runde steigern dann in der zweiten Runde über höhere Gebote freien
+        \item verdeckte Zweitpreisaukion -> Mitbieter ansetzen einen möglichst hohes Gebot zu bieten.
+    \end{enumerate}
+},
+%
+{Inwiefern findet bei a) common Value, b) private Value-Auktionen ein Informationstransfer statt?}/
+{
+    Seite 68.\lf
+    common value -> bakannter Ähnlicher Wert z.B. Bohrlizensen
+    private Value -> privater individueller Wert einer Person z.B. Lieblingsvorhang
+    %
+    Bei common value ist das Mitteilen der eigenen Wertschätzung negativ.
+    Bei privatem individuellem Wert ist strategisches Bieten nicht ratsam.
+},
+%
+{Diskutieren Sie Bieterabsprachen am Beispiel der a) englischen, b) holländischen, c) Erstpreis-, d) Zweitpreisauktion. Wie sieht eine Absprache aus, ist das Protokoll gegen die Absprache resistent?}/
+{
+    a) Mit wenigen Teilnehmerinnen möglich.
+    b) Schwierig da auch hier jeder teilnehmen muss. Abbruch der Auktion sofortig möglich daher kein Kontrollmechanismus.
+    c) leicht Absprachen zu brechen da Gebote verdeckt sind.
+    d) Bei vielen niedrigen Geboten bekommt ein niedriges Gebot den Zuschlag.
+},
+%
+{Welche Auktionsformen sind nicht effizient? Erklären Sie, bzw. geben Sie Beispiele.}
 /
 {
-Skript Seite 69.
-\begin{enumerate}
-    \item Garantierter Erfolg -> Liefert eindeutiges Ergebnis
-    \item Effizienz -> Der Zuschlag geht an den Bieter mit der höchsten Wertschätzung. Effizienz entspricht also der aus der Spieltheorie bekannten Pareto-Effizienz. 3.1.5
-    \item Stabilität gegenüber Kollusionen -> Stabil gegen Manipulation
-\end{enumerate}
-Alle Mechanismen funktionieren besonders bei starker Konkurenz}},
+    parallele Auktionen sind bei superadditive Gütern nicht effizient.
+},
 %
-{{Welche Möglichkeiten hat eine Auktionatorin um ihre Erlöse zu steigern?}
+{Was ist der „Fluch des Gewinners“ (winner’s curse)? In welchen Auktionsformen tritt er auf? Geben Sie ein Beispiel.}/
+{
+    Wenn ein Bieter mit einem viel zu hohen Gebot gewinnt nennt man dies Fluch des Gewinners. Er hätte dies das Gut auch für einen geringern Preis haben können.
+},
+%
+{Schildern Sie das Problem des lügenden Auktionators am Beispiel einer Englischen und einer Zweitpreisauktion. Welche Möglichkeiten des Betrugs existieren für eine Auktionatorin?}/
+{
+    Englisch -> Auktionator kann beim höchstpreis lügen
+    Zweitpreis -> Der Auktionator kann beim Zweitpreis lügen und so annähernd den Erstpreis verlangen.
+},
+%
+{Welches Auktionsprotokoll ähnelt dem a) Contract Net Protokoll, b) iterierten Contract Net Protokoll am meisten?}/
+{
+    \begin{enumerate}
+        \item CNP -> Verdeckte Erstpreisauktion
+        \item iCNP -> Japanische Auktion
+    \end{enumerate}
+},
+%
+{Diskutieren Sie die Schwächen des FIPA English Auction Interaktionsprotokolls aus Sicht der Bieter.}/
+{
+    Gebote sind einem Bieter nicht bekannt, ihm wird nur über \textbf{reject} oder \textbf{accept} der Erfolg des Gebotes mitgeteilt.
+},
+%
+{Unter welchen Bedingungen ist die a) englische, b) Erstpreis-, c) Zweitpreisauktion die beste Wahl zur Versteigerung eines Gutes? Erklären Sie, welche Annahmen hinsichtlich der Bieter und Güter erfüllt sein müssen, damit die jeweilige Auktionsform den Erlös maximiert.}/
+{
+    \begin{enumerate}
+        \item a) englische Auktion $\to$ bei common Value Gütern profitieren wir von einem fortlaufenden Wettbewerb bei dem Bieter die Preiseinschätzung der Konkurentinnen sehen können und auch noch spät in die Auktion einsteigen können. Wichtig hier ist die Annahme, dass keine Kollusion statt gefunden hat.
+        \item b) Erstpreisauktion $\to$ private Value sind besonders geeignet, da einzelne Bieter dem Gut einen besonders hohen Wert beimessen ohne, dass sich durch einen zu hohen Verkaufspeis der Fluch des Gewinners einstellt.
+        \item c) Zweitpreisauktion $\to$ eher für common Value geeignet. Umgehen des "winners curse". Sinnvoll, wenn davon ausgegangen werden muss, dass die Teilnehmerinnen sich kartellisiern.
+    \end{enumerate}
+},
+%
+{Erläutern Sie das Problem a) paralleler und b) sequenzieller Auktionen mit Komplementärgütern.}/
+{
+    \begin{enumerate}
+        \item paralleler Auktionen $\to$ Komplementärgüter erreichen zusammen einen höheren beigemessenen Wert eines Bieters. Bei parallelen Auktionen ist ein Erfolg aller Auktionen nicht sichergestellt. Bei Verlust Auktion zu einem Komplementärgut, könnte der Bieter sich ärgern, da die anderen Güter einzeln für ihn einen geringeren Wert haben.
+        \item sequenzieller Auktionen $\to$ Wir können bei einer Sequenziellen nicht gleich bei der ersten Auktion sagen, wie weitere Auktionen ausgehen werden, und müssen und daher unter Umständen bei der Ersteigerung von Gütern zurück halten. Hingegen kann eine erfolgreiche Auktion Planungssicherheit für weitere Auktionen liefern.
+    \end{enumerate}
+},
+%
+{Erläutern Sie das Problem a) paralleler und b) sequenzieller Auktionen mit Substitutionsgütern.}/
+{
+    \begin{enumerate}
+        \item paralleler Auktionen $\to$ Problem! Was ist wenn wir aus versehen 2t Hering (Substitutions gut of our choice) statt einer ersteigern und eine kostenaufwändig entsorgen müssen.
+        \item sequenzieller Auktionen $\to$ Das sollte unserer Meinung nach ok sein.
+    \end{enumerate}
+},
+%
+{Welche Probleme können in einer idealen kombinatorischen Auktion entstehen, wenn die Bieter ihre Wertschätzungen nicht für alle Güterbündel übermitteln?}/
+{
+    Der Umgang ohne ein Gebot auf ein Bündel ist nicht definiert und könnte subadditiv oder superadditiv sein. Ein optimaler Ausgang der Auktion ist weder für den Bieter noch für den Auktionator sichergestellt.
+},
+%
+{Erläutern Sie den Vickrey, Clarke, Groves- (VCG) Mechanismus anhand der verdeckten Zweitpreisauktion.}
 /
 {
-\begin{enumerate}
-    \item englische Auktion -> Auktionatorin setzt einen Bieter ein der die Gebote gezielt hochbietet.
-    \item Holländisch -> nicht möglich als Auktionatorin
-    \item Direkte Erstpreisauktion -> "Göethe"-Beispiel Preis in erster Runde steigern dann in der zweiten Runde über höhere Gebote freien
-    \item verdeckte Zweitpreisaukion -> Mitbieter ansetzen einen möglichst hohes Gebot zu bieten.
-\end{enumerate}}},
+    \todo
+},
 %
-{{Inwiefern findet bei a) common Value, b) private Value-Auktionen ein Informationstransfer statt?}
+{Erläutern Sie kurz die Aussage: „iBundle ist eine generalisierte Englische Auktion“.}/
+{
+    \todo
+},
+%
+{Für welche Auktionsformen werden Aktivitätsregeln benötigt? Begründen Sie kurz.}
 /
 {
-Seite 68.\lf
-common value -> bakannter Ähnlicher Wert z.B. Bohrlizensen
-private Value -> privater individueller Wert einer Person z.B. Lieblingsvorhang
+    \todo
+}
 %
-Bei common value ist das Mitteilen der eigenen Wertschätzung negativ.
-Bei privatem individuellem Wert ist strategisches Bieten nicht ratsam.}},
 %
-{{Diskutieren Sie Bieterabsprachen am Beispiel der a) englischen, b) holländischen, c) Erstpreis-, d) Zweitpreisauktion. Wie sieht eine Absprache aus, ist das Protokoll gegen die Absprache resistent?}
-/
-{
-a) Mit wenigen Teilnehmerinnen möglich.
-b) Schwierig da auch hier jeder teilnehmen muss. Abbruch der Auktion sofortig möglich daher kein Kontrollmechanismus.
-c) leicht Absprachen zu brechen da Gebote verdeckt sind.
-d) Bei vielen niedrigen Geboten bekommt ein niedriges Gebot den Zuschlag.}},
-%
-{{Welche Auktionsformen sind nicht effizient? Erklären Sie, bzw. geben Sie Beispiele.}
-/
-{
-parallele Auktionen sind bei superadditive Gütern nicht effizient.}},
-%
-{{Was ist der „Fluch des Gewinners“ (winner’s curse)? In welchen Auktionsformen tritt
-er auf? Geben Sie ein Beispiel.}
-/
-{
-Wenn ein Bieter mit einem viel zu hohen Gebot gewinnt nennt man dies Fluch des Gewinners. Er hätte dies das Gut auch für einen geringern Preis haben können.}},
-%
-{{Schildern Sie das Problem des lügenden Auktionators am Beispiel einer Englischen und einer Zweitpreisauktion. Welche Möglichkeiten des Betrugs existieren für eine Auktionatorin?}
-/
-{
-Englisch -> Auktionator kann beim höchstpreis lügen
-Zweitpreis -> Der Auktionator kann beim Zweitpreis lügen und so annähernd den Erstpreis verlangen.}},
-%
-{{Welches Auktionsprotokoll ähnelt dem a) Contract Net Protokoll, b) iterierten Contract Net Protokoll am meisten?}
-/
-{\begin{enumerate}
-    \item CNP -> Verdeckte Erstpreisauktion
-    \item iCNP -> Japanische Auktion
-\end{enumerate}}/1},
-%
-{{Diskutieren Sie die Schwächen des FIPA English Auction Interaktionsprotokolls aus Sicht der Bieter.}
-/
-{
-Gebote sind einem Bieter nicht bekannt, ihm wird nur über \textbf{reject} oder \textbf{accept} der Erfolg des Gebotes mitgeteilt.}},
-%
-{{Unter welchen Bedingungen ist die a) englische, b) Erstpreis-, c) Zweitpreisauktion die beste Wahl zur Versteigerung eines Gutes? Erklären Sie, welche Annahmen hinsichtlich der Bieter und Güter erfüllt sein müssen, damit die jeweilige Auktionsform den Erlös maximiert.}
-/
-{\begin{enumerate}
-    \item a) englische Auktion $\to$ bei common Value Gütern profitieren wir von einem fortlaufenden Wettbewerb bei dem Bieter die Preiseinschätzung der Konkurentinnen sehen können und auch noch spät in die Auktion einsteigen können. Wichtig hier ist die Annahme, dass keine Kollusion statt gefunden hat.
-    \item b) Erstpreisauktion $\to$ private Value sind besonders geeignet, da einzelne Bieter dem Gut einen besonders hohen Wert beimessen ohne, dass sich durch einen zu hohen Verkaufspeis der Fluch des Gewinners einstellt.
-    \item c) Zweitpreisauktion $\to$ eher für common Value geeignet. Umgehen des "winners curse". Sinnvoll, wenn davon ausgegangen werden muss, dass die Teilnehmerinnen sich kartellisiern.
-\end{enumerate}}/1},
-%
-{{Erläutern Sie das Problem a) paralleler und b) sequenzieller Auktionen mit Komplementärgütern.}
-/
-{\begin{enumerate}
-    \item paralleler Auktionen $\to$ Komplementärgüter erreichen zusammen einen höheren beigemessenen Wert eines Bieters. Bei parallelen Auktionen ist ein Erfolg aller Auktionen nicht sichergestellt. Bei Verlust Auktion zu einem Komplementärgut, könnte der Bieter sich ärgern, da die anderen Güter einzeln für ihn einen geringeren Wert haben.
-    \item sequenzieller Auktionen $\to$ Wir können bei einer Sequenziellen nicht gleich bei der ersten Auktion sagen, wie weitere Auktionen ausgehen werden, und müssen und daher unter Umständen bei der Ersteigerung von Gütern zurück halten. Hingegen kann eine erfolgreiche Auktion Planungssicherheit für weitere Auktionen liefern.
-\end{enumerate}}/1},
-%
-{{Erläutern Sie das Problem a) paralleler und b) sequenzieller Auktionen mit Substitutionsgütern.}
-/
-{\begin{enumerate}
-    \item paralleler Auktionen $\to$ Problem! Was ist wenn wir aus versehen 2t Hering (Substitutions gut of our choice) statt einer ersteigern und eine kostenaufwändig entsorgen müssen.
-    \item sequenzieller Auktionen $\to$ Das sollte unserer Meinung nach ok sein.
-\end{enumerate}}},
-%
-{{Welche Probleme können in einer idealen kombinatorischen Auktion entstehen, wenn die Bieter ihre Wertschätzungen nicht für alle Güterbündel übermitteln?}
-/
-{
-Der Umgang ohne ein Gebot auf ein Bündel ist nicht definiert und könnte subadditiv oder superadditiv sein. Ein optimaler Ausgang der Auktion ist weder für den Bieter noch für den Auktionator sichergestellt. }},
-%
-{{Erläutern Sie den Vickrey, Clarke, Groves- (VCG) Mechanismus anhand der verdeckten Zweitpreisauktion.}
-/
-{
-\todo}},
-%
-{{Erläutern Sie kurz die Aussage: „iBundle ist eine generalisierte Englische Auktion“.}
-/
-{
-\todo}},
-%
-{{Für welche Auktionsformen werden Aktivitätsregeln benötigt? Begründen Sie kurz.}
-/
-{
-\todo}}
 }
 
 
@@ -421,20 +437,23 @@ Der Umgang ohne ein Gebot auf ein Bündel ist nicht definiert und könnte subadd
 % <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 \makeQuestionsAndAnswers[9]{
-{{Diskutieren Sie Gemeinsamkeiten und Unterschiede zwischen Bargaining und Auktionen.}
-/
+{Diskutieren Sie Gemeinsamkeiten und Unterschiede zwischen Bargaining und Auktionen.}/
 {
-\todo}},
+    \todo
+},
 %
-{{Erklären Sie das Monotonic Concession Protocol. Unter welchen Bedingungen führt es zu einem Verhandlungsergebnis außerhalb des Konfliktdeals?}
+{Erklären Sie das Monotonic Concession Protocol. Unter welchen Bedingungen führt es zu einem Verhandlungsergebnis außerhalb des Konfliktdeals?}
 /
 {
-\todo}},
+    \todo
+},
 %
-{{Erklären Sie den Grundgedanken der Zeuthen-Strategie und begründen Sie warum die Zeuthen-Strategie eine Gleichgewichtsstrategie ist.}
-/
+{Erklären Sie den Grundgedanken der Zeuthen-Strategie und begründen Sie warum die Zeuthen-Strategie eine Gleichgewichtsstrategie ist.}/
 {
-\todo}}
+    \todo
+}
+%
+%
 }
 
 
@@ -443,25 +462,27 @@ Der Umgang ohne ein Gebot auf ein Bündel ist nicht definiert und könnte subadd
 % <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 \makeQuestionsAndAnswers[10]{
-{{Wie kann die jährliche Zuweisung von Tutoren zu Fachgebieten als Matching-Problem dargestellt und gelöst werden?}
-/
+{Wie kann die jährliche Zuweisung von Tutoren zu Fachgebieten als Matching-Problem dargestellt und gelöst werden?}/
 {
-\todo}},
+    \todo
+},
 %
-{{Der Deferred Acceptance Algorithmus bevorzugt die Proposer. Diskutieren Sie Möglichkeiten, wie die Gruppe der Acceptors das Ergebnis zu ihren Gunsten beeinflussen kann.}
-/
+{Der Deferred Acceptance Algorithmus bevorzugt die Proposer. Diskutieren Sie Möglichkeiten, wie die Gruppe der Acceptors das Ergebnis zu ihren Gunsten beeinflussen kann.}/
 {
-\todo}},
+    \todo
+},
 %
-{{Skizzieren Sie grob die Ideen von Phase 1 und Phase 2 des Algorithmus zur Lösung des Stable Roommate Problems.}
-/
+{Skizzieren Sie grob die Ideen von Phase 1 und Phase 2 des Algorithmus zur Lösung des Stable Roommate Problems.}/
 {
-\todo}},
+    \todo
+},
 %
-{{Für welche Problemstellungen ist die Ungarische Methode anwendbar?}
-/
+{Für welche Problemstellungen ist die Ungarische Methode anwendbar?}/
 {
-\todo}}
+    \todo
+}
+%
+%
 }
 
 
@@ -470,32 +491,37 @@ Der Umgang ohne ein Gebot auf ein Bündel ist nicht definiert und könnte subadd
 % <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 \makeQuestionsAndAnswers[11]{
-{{Mechanismusdesignziele von Wahlen. Welche sind besonders schwierig zu erreichen?}
-/
+{Mechanismusdesignziele von Wahlen. Welche sind besonders schwierig zu erreichen?}/
 {
-\todo}},
+    \todo
+},
 %
-{{VCG-Mechanismus bei ökonomischen Wahlen}
-/
+{VCG-Mechanismus bei ökonomischen Wahlen}/
 {
-\todo}},
+    \todo
+},
 %
-{{Schildern Sie eine Situation, in der der Einsatz des a) Borda-Protokolls, b) ... eine gute Wahl ist. Begründen Sie Ihre Wahl. Welche Nachteile hat der Mechanismus?}
-/
+{Schildern Sie eine Situation, in der der Einsatz des a) Borda-Protokolls, b) ... eine gute Wahl ist. Begründen Sie Ihre Wahl. Welche Nachteile hat der Mechanismus?}/
 {
-\todo}},
+    \todo
+},
 %
-{{ Condorcet-Prinzip}
-/
+{Condorcet-Prinzip}/
 {
-\todo}},
+    \todo
+},
 %
-{{Grober Ablauf von Schulze-Methode oder Ranked Pairs}
+{Grober Ablauf von Schulze-Methode oder Ranked Pairs}
 /
-{
-\todo}}
+{\todo}
+%
+%
 }
 
+\makeQuestionsAndAnswers[]{
+
+
+}
 
 
 
