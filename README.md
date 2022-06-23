@@ -22,4 +22,6 @@ You will first have to set up the required files:
 - `mylatexformat.ltx`
 - `src/*.sty`
 
+These are all symlinked into the directory `compile/overleafFiles`.
+
 Once these are uploaded, you can go ahead and compile `compileOverleaf.tex`. The output is available from "Logs" → "Other logs and files".
