@@ -2,8 +2,6 @@
 % Made with 💖 by Emily3403
 % Version 1.1
 
-% TODO: Make a variable include option
-
 % It aims at having everything you *might* need and thus avoiding the need to include anything.
 % While this approach is fundamentally slow, the pre-compiled format files fix this problem.
 
@@ -104,7 +102,6 @@
 
 
 % TODO: change \ifdefempty to something else.
-% TODO: Add `minusPage=` option. Subtracts x number of pages from the last one.
 
 \NeedsTeXFormat{LaTeX2e}
 
@@ -237,20 +234,20 @@
 %  #1 = {KEY1 = VAL1, KEY2 = VAL2, …}
 %      String that gets interpreted by pgfkeys.
 %      Please refer to the beginning of this file for the according documentation.
-%\providecommand{\useTemplate}[1][]{
-%    \template@setkey[\template@setupName]{#1}
-%    \template@setkey[\template@setupName]{language/.eval}
-%    % Get the exercise number if it is not given.
-%    \template@getkey[\template@setupName]{Ex}{\exerciseNumber}
-%    \if\relax\exerciseNumber
-%        \ClassWarning{template}{You did not supply an exercise number. If you know what you are doing, then go ahead. This might otherwise lead to problems.}{}
-%    \fi
-%    %
-%    \template@setkey[\template@setupName]{pagestyle/.eval}
-%    %
-%    % Now, digest the module options.
-%    \digestModules
-%}
+\providecommand{\useTemplate}[1][]{
+    \template@setkey[\template@setupName]{#1}
+    \template@setkey[\template@setupName]{language/.eval}
+    % Get the exercise number if it is not given.
+    \template@getkey[\template@setupName]{Ex}{\exerciseNumber}
+    \if\relax\exerciseNumber
+        \ClassWarning{template}{You did not supply an exercise number. If you know what you are doing, then go ahead. This might otherwise lead to problems.}{}
+    \fi
+    %
+    \template@setkey[\template@setupName]{pagestyle/.eval}
+    %
+    % Now, digest the module options.
+    \digestModules
+}
 
 
 % Sets the language options.
@@ -317,6 +314,8 @@
 \providecommand{\LF}{\\[10pt]}
 \providecommand{\Lf}{\\[7pt]}
 \providecommand{\lf}{\\[3pt]}
+\providecommand{\n}{\\[7pt]}
+
 
 % Inserts the title page with no page numbering.
 \let\oldMaketitle\maketitle
