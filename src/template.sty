@@ -116,11 +116,14 @@
 \providecommand*{\input@path}{}
 \edef\input@path{{src/}\input@path}
 
+% A constant for the language. This has to be set *before* the \usepackage{template}.
+\providecommand{\templateLanguage}{english}
 
 % First we include some packages, which have to be present / are very commonly used.
 
 \RequirePackage[T1]{fontenc}        %
 \RequirePackage[utf8]{inputenc}     %
+\RequirePackage[\templateLanguage]{babel}  % Set the document language
 \RequirePackage{titling}            %
 \RequirePackage{fancyhdr}           %
 \RequirePackage{geometry}           %
@@ -207,11 +210,6 @@
     \template@makefamily{\template@setupName},
     \template@setfamily{\template@setupName},
     %
-    % Configure language choices
-    language/.is code choice,
-    language/english/.code=\template@setLanguage{e},
-    language/german/.code=\template@setLanguage{g},
-    %
     % Pagestyle options
     pagestyle/.is code choice,
     pagestyle/None/.code={},
@@ -219,13 +217,9 @@
     %
     %
     % Aliases
-    english/.code=\pgfkeysalso{language=english},
-    german/.code=\pgfkeysalso{language=german},
-    %
     % Set the defaults
     Ex/.initial=\relax,
     minusPage/.initial=0,
-    language=english,
     pagestyle=Emily,
     geometry/.initial={a4paper, total={17cm,24cm}},
 }
@@ -236,7 +230,6 @@
 %      Please refer to the beginning of this file for the according documentation.
 \providecommand{\useTemplate}[1][]{
     \template@setkey[\template@setupName]{#1}
-    \template@setkey[\template@setupName]{language/.eval}
     % Get the exercise number if it is not given.
     \template@getkey[\template@setupName]{Ex}{\exerciseNumber}
     \if\relax\exerciseNumber
@@ -249,18 +242,6 @@
     \digestModules
 }
 
-
-% Sets the language options.
-\providecommand{\template@setLanguage}[1]{
-    % German
-    \if#1g
-        \RequirePackage[ngerman]{babel}
-    \fi
-    % English
-    \if#1e
-        \RequirePackage[USenglish]{babel}
-    \fi
-}
 
 % Include the module choices. This is done now, rather than at the beginning, since it requires the `@setupName` keyspace and some other macros.
 \RequirePackage{moduleStyles}
