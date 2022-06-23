@@ -1,5 +1,6 @@
 % This template provides a big collection of packages and other utilities, that might be useful.
 % Made with 💖 by Emily3403
+% Version 1.1
 
 % TODO: Make a variable include option
 
@@ -92,18 +93,14 @@
 %        → This sets the exercise number.
 %          It may be any number which is appropriate for your document. Usually it is a Number ∈ [1, 2, …]
 
-%      no renew / n
-%        → Do not renew the \begin{align*} … \end{align*} environments
-%          In the `templateMath.sty` align / alignat environments from amsmath get renewed to accept an additional, optional, parameter.
-%          There the definitions from `amsmath.sty` are copy-pasted and added to them.
-%          In case the file changes this *could* lead to unexplicable problems.
-
-%          This option is here for easy debugging and I don't expect to use it often, as the same syntax is expected.
-
+%       minusPage = …
+%        → This sets the number of pages to subtract from the total page count.
+%          This is useful when you e.g. have a bibliography or something similar which takes up pages but is ultimately not part of the page total.
 
 % Provided commands:
-%  [\lf | \Lf | \LF]
-%  \mktitle
+%  [\lf | \Lf | \LF | \n]
+%  [\TODO | \todo | \ToDo]
+%  \maketitle
 
 
 % TODO: change \ifdefempty to something else.
@@ -140,7 +137,7 @@
 \RequirePackage{pgfkeys}            % This package is for digesting the [key=value] options.
 \RequirePackage{csquotes}           % Nice quotes
 \RequirePackage{xparse}             % Nice syntax for newcommands
-\RequirePackage{lastpage}           % Package for the fancy pagenumber
+\RequirePackage[lastpage]{zref}     % Package for the fancy pagenumber
 \RequirePackage{nicefrac}           % Package for the fancy pagenumber
 \RequirePackage{xurl}               % Package for better urls
 \RequirePackage[svgnames]{xcolor}   % Colors!
@@ -155,8 +152,11 @@
 \RequirePackage{ifStatements}       % if statements for vim code formatting
 \RequirePackage{ezkeys}             % provides `/.is code choice` handler.
 
-
-
+%% Patch pgffor to be able to contain \par tokens
+\patchcmd[\long]{\pgffor@normal@list}{}{}{}{}
+\patchcmd[\long]{\pgffor@scanone}{}{}{}{}
+\patchcmd[\long]{\pgffor@dots@in@}{}{}{}{}
+\patchcmd[\long]{\pgffor@multiassignfinal}{}{}{}{}
 
 % --- Setup pgfkeys ---
 
@@ -227,6 +227,7 @@
     %
     % Set the defaults
     Ex/.initial=\relax,
+    minusPage/.initial=0,
     language=english,
     pagestyle=Emily,
     geometry/.initial={a4paper, total={17cm,24cm}},
@@ -236,20 +237,20 @@
 %  #1 = {KEY1 = VAL1, KEY2 = VAL2, …}
 %      String that gets interpreted by pgfkeys.
 %      Please refer to the beginning of this file for the according documentation.
-\providecommand{\useTemplate}[1][]{
-    \template@setkey[\template@setupName]{#1}
-    \template@setkey[\template@setupName]{language/.eval}
-    % Get the exercise number if it is not given.
-    \template@getkey[\template@setupName]{Ex}{\exerciseNumber}
-    \if\relax\exerciseNumber
-        \ClassWarning{template}{You did not supply an exercise number. If you know what you are doing, then go ahead. This might otherwise lead to problems.}{}
-    \fi
-    %
-    \template@setkey[\template@setupName]{pagestyle/.eval}
-    %
-    % Now, digest the module options.
-    \digestModules
-}
+%\providecommand{\useTemplate}[1][]{
+%    \template@setkey[\template@setupName]{#1}
+%    \template@setkey[\template@setupName]{language/.eval}
+%    % Get the exercise number if it is not given.
+%    \template@getkey[\template@setupName]{Ex}{\exerciseNumber}
+%    \if\relax\exerciseNumber
+%        \ClassWarning{template}{You did not supply an exercise number. If you know what you are doing, then go ahead. This might otherwise lead to problems.}{}
+%    \fi
+%    %
+%    \template@setkey[\template@setupName]{pagestyle/.eval}
+%    %
+%    % Now, digest the module options.
+%    \digestModules
+%}
 
 
 % Sets the language options.
@@ -279,13 +280,15 @@
 \providecommand{\template@defaultlook}{
     % Set up the geometry
     \template@getkey[\template@setupName]{geometry}{\template@theGeometry}
+    \template@getkey[\template@setupName]{minusPage}{\template@minusPage}
+    %
     \expandafter\geometry\expandafter{\template@theGeometry}
     %
     \pagestyle{fancy}
     \fancyhf{}
     % Define the right header and footer.
     \fancyhead[R]{\thedate}
-    \fancyfoot[C]{\thepage\;$\nicefrac{}{}$\;\pageref{LastPage}}
+    \fancyfoot[C]{\thepage\;$\nicefrac{}{}$\;\the\numexpr\zref@extractdefault{LastPage}{page}{0}-\template@minusPage\relax}
     %
     % The left header is missing. This gets handled in the module style.
     % Depending on which module we have, one might want different people included.
@@ -345,6 +348,9 @@
     \oldHref{#1}{#2}\footnote{\url{#1}}%
 }
 
+\newcommand{\TODO}[1][]{\textcolor{red}{TODO\if\relax\detokenize{#1}\relax\else: #1\fi}}
+\newcommand{\todo}[1][]{\TODO[#1]}
+\newcommand{\ToDo}[1][]{\TODO[#1]}
 
 % Now get the things of the other template files.
 \RequirePackage{templateMedium}

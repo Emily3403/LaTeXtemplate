@@ -1,7 +1,7 @@
 \documentclass{article}
 
 \immediate\write18{
-    pdflatex -ini -jobname="template" "&pdflatex" mylatexformat.ltx "template.tex"
+    pdflatex -ini -jobname="template" "&pdflatex" mylatexformat.ltx "compileTemplate.tex"
         && echo "Format file successfully generated." > compile-out.tex
         || echo "Format file could not be generated." > compile-out.tex
 }

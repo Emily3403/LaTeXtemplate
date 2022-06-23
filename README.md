@@ -17,10 +17,9 @@ Compiling is done by executing the command `pdflatex -ini -jobname="{output file
 A problem, which appears with Overleaf is that the executable is so different from the one on my system that it can't use the format file. Thus, we have to use the Overleaf `pdflatex` to generate the format file. 
 
 You will first have to set up the required files:
-- `template.tex`
+- `compileOverleaf.tex`
+- `compileTemplate.tex`
 - `mylatexformat.ltx`
-- Other template files which are required
+- `src/*.sty`
 
-Once these are uploaded, you can go ahead and copy-paste the code in `compileOverleaf.tex` and compile once. If an error occurs, it will be indicated in the output PDF.
-
-The output is available from "Logs" → "Other logs and files".
+Once these are uploaded, you can go ahead and compile `compileOverleaf.tex`. The output is available from "Logs" → "Other logs and files".

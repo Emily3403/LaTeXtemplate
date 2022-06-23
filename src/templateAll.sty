@@ -337,3 +337,70 @@
     cross/.style={cross out, draw=black, fill=none, minimum size=2*(#1-\pgflinewidth), inner sep=0pt, outer sep=0pt},
     cross/.default={2pt}, >=Latex
 }
+
+
+% Usage:
+%   First define the Macro \Questions appropriatly. See the examples for more details on how to do that.
+%   Afterwards you can call \makeQuestionsAndAnswers.
+
+
+
+% This counter represents the number of times the \makeQuestionsAndAnswers macro has been called. This is needed due to the fact that labels have to be unique and a number that increments every time does indeed fulfil this purpose.
+\newcounter{template@q+a@labelCounter}
+\newcounter{template@q+a@globalCount}
+
+
+% This is a boolean value that defines if answers should be printed.
+\def\template@questions@makeAnswers{1}
+
+% #1 = Optional overwrite for "Fragen Kaptiel {#1}"
+
+\def\makeStarSec#1{
+    \phantomsection
+    \addcontentsline{toc}{section}{#1}
+    \section*{#1}
+}
+
+\newcommand{\makeQuestionsAndAnswers}[2][]{
+    % Check if an overwrite for the heading is supplied. If so, use it.
+    \if\relax\detokenize{#1}\relax
+        \def\heading{Kapitel \arabic{section}}
+    \else
+        \def\heading{#1}
+    \fi
+    %
+    % Set up the label used for referencing
+    \addtocounter{template@q+a@labelCounter}{1}
+    \def\makeQuestionLabel##1{Fragen \arabic{template@q+a@labelCounter} ##1}
+    \def\makeAnswerLabel##1{Antworten \arabic{template@q+a@labelCounter} ##1}
+    %
+    % Make the heading
+    \clearpage
+    \makeStarSec{Fragen \heading}
+    %
+    % Now make the Questions
+    \foreach[count=\i] \Q/\A in {#2} {%
+        \par%
+        \hyperref[\makeAnswerLabel{\i}]{\textbf{Frage \i}}%
+        \ifnum\template@questions@makeAnswers=0\else
+            \refstepcounter{template@q+a@globalCount}\label{\makeQuestionLabel{\i}}%
+        \fi
+        %
+        \par\Q%
+    }
+    %
+    % Maybe make Answers
+    \ifnum\template@questions@makeAnswers=0\else
+        \clearpage
+        \makeStarSec{Antworten \heading}
+        %
+        \foreach[count=\i] \Q/\A in {#2} {%
+            \par%
+            \hyperref[\makeQuestionLabel{\i}]{\textbf{Antwort \i}}%
+            \refstepcounter{template@q+a@globalCount}\label{\makeAnswerLabel{\i}}%
+            \par\emph{\Q}\par\A%
+        }
+    \fi
+    \clearpage
+}
+
