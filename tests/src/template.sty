@@ -1,6 +1,5 @@
 % This template provides a big collection of packages and other utilities, that might be useful.
 % Made with 💖 by Emily3403
-% Version 1.1
 
 % It aims at having everything you *might* need and thus avoiding the need to include anything.
 % While this approach is fundamentally slow, the pre-compiled format files fix this problem.
@@ -91,17 +90,22 @@
 %        → This sets the exercise number.
 %          It may be any number which is appropriate for your document. Usually it is a Number ∈ [1, 2, …]
 
-%       minusPage = …
-%        → This sets the number of pages to subtract from the total page count.
-%          This is useful when you e.g. have a bibliography or something similar which takes up pages but is ultimately not part of the page total.
+%      no renew / n
+%        → Do not renew the \begin{align*} … \end{align*} environments
+%          In the `templateMath.sty` align / alignat environments from amsmath get renewed to accept an additional, optional, parameter.
+%          There the definitions from `amsmath.sty` are copy-pasted and added to them.
+%          In case the file changes this *could* lead to unexplicable problems.
+
+%          This option is here for easy debugging and I don't expect to use it often, as the same syntax is expected.
+
 
 % Provided commands:
-%  [\lf | \Lf | \LF | \n]
-%  [\TODO | \todo | \ToDo]
-%  \maketitle
+%  [\lf | \Lf | \LF]
+%  \mktitle
 
 
 % TODO: change \ifdefempty to something else.
+
 
 \NeedsTeXFormat{LaTeX2e}
 
@@ -116,14 +120,11 @@
 \providecommand*{\input@path}{}
 \edef\input@path{{src/}\input@path}
 
-% A constant for the language. This has to be set *before* the \usepackage{template}.
-\providecommand{\templateLanguage}{english}
 
 % First we include some packages, which have to be present / are very commonly used.
 
 \RequirePackage[T1]{fontenc}        %
 \RequirePackage[utf8]{inputenc}     %
-\RequirePackage[\templateLanguage]{babel}  % Set the document language
 \RequirePackage{titling}            %
 \RequirePackage{fancyhdr}           %
 \RequirePackage{geometry}           %
@@ -137,7 +138,7 @@
 \RequirePackage{pgfkeys}            % This package is for digesting the [key=value] options.
 \RequirePackage{csquotes}           % Nice quotes
 \RequirePackage{xparse}             % Nice syntax for newcommands
-\RequirePackage[lastpage]{zref}     % Package for the fancy pagenumber
+\RequirePackage{lastpage}           % Package for the fancy pagenumber
 \RequirePackage{nicefrac}           % Package for the fancy pagenumber
 \RequirePackage{xurl}               % Package for better urls
 \RequirePackage[svgnames]{xcolor}   % Colors!
@@ -152,11 +153,8 @@
 \RequirePackage{ifStatements}       % if statements for vim code formatting
 \RequirePackage{ezkeys}             % provides `/.is code choice` handler.
 
-%% Patch pgffor to be able to contain \par tokens
-\patchcmd[\long]{\pgffor@normal@list}{}{}{}{}
-\patchcmd[\long]{\pgffor@scanone}{}{}{}{}
-\patchcmd[\long]{\pgffor@dots@in@}{}{}{}{}
-\patchcmd[\long]{\pgffor@multiassignfinal}{}{}{}{}
+
+
 
 % --- Setup pgfkeys ---
 
@@ -210,6 +208,11 @@
     \template@makefamily{\template@setupName},
     \template@setfamily{\template@setupName},
     %
+    % Configure language choices
+    language/.is code choice,
+    language/english/.code=\template@setLanguage{e},
+    language/german/.code=\template@setLanguage{g},
+    %
     % Pagestyle options
     pagestyle/.is code choice,
     pagestyle/None/.code={},
@@ -217,9 +220,12 @@
     %
     %
     % Aliases
+    english/.code=\pgfkeysalso{language=english},
+    german/.code=\pgfkeysalso{language=german},
+    %
     % Set the defaults
     Ex/.initial=\relax,
-    minusPage/.initial=0,
+    language=english,
     pagestyle=Emily,
     geometry/.initial={a4paper, total={17cm,24cm}},
 }
@@ -230,6 +236,7 @@
 %      Please refer to the beginning of this file for the according documentation.
 \providecommand{\useTemplate}[1][]{
     \template@setkey[\template@setupName]{#1}
+    \template@setkey[\template@setupName]{language/.eval}
     % Get the exercise number if it is not given.
     \template@getkey[\template@setupName]{Ex}{\exerciseNumber}
     \if\relax\exerciseNumber
@@ -242,6 +249,18 @@
     \digestModules
 }
 
+
+% Sets the language options.
+\providecommand{\template@setLanguage}[1]{
+    % German
+    \if#1g
+        \RequirePackage[ngerman]{babel}
+    \fi
+    % English
+    \if#1e
+        \RequirePackage[USenglish]{babel}
+    \fi
+}
 
 % Include the module choices. This is done now, rather than at the beginning, since it requires the `@setupName` keyspace and some other macros.
 \RequirePackage{moduleStyles}
@@ -258,15 +277,13 @@
 \providecommand{\template@defaultlook}{
     % Set up the geometry
     \template@getkey[\template@setupName]{geometry}{\template@theGeometry}
-    \template@getkey[\template@setupName]{minusPage}{\template@minusPage}
-    %
     \expandafter\geometry\expandafter{\template@theGeometry}
     %
     \pagestyle{fancy}
     \fancyhf{}
     % Define the right header and footer.
     \fancyhead[R]{\thedate}
-    \fancyfoot[C]{\thepage\;$\nicefrac{}{}$\;\the\numexpr\zref@extractdefault{LastPage}{page}{0}-\template@minusPage\relax}
+    \fancyfoot[C]{\thepage\;$\nicefrac{}{}$\;\pageref{LastPage}}
     %
     % The left header is missing. This gets handled in the module style.
     % Depending on which module we have, one might want different people included.
@@ -295,8 +312,6 @@
 \providecommand{\LF}{\\[10pt]}
 \providecommand{\Lf}{\\[7pt]}
 \providecommand{\lf}{\\[3pt]}
-\providecommand{\n}{\\[7pt]}
-
 
 % Inserts the title page with no page numbering.
 \let\oldMaketitle\maketitle
@@ -328,9 +343,6 @@
     \oldHref{#1}{#2}\footnote{\url{#1}}%
 }
 
-\newcommand{\TODO}[1][]{\textcolor{red}{TODO\if\relax\detokenize{#1}\relax\else: #1\fi}}
-\newcommand{\todo}[1][]{\TODO[#1]}
-\newcommand{\ToDo}[1][]{\TODO[#1]}
 
 % Now get the things of the other template files.
 \RequirePackage{templateMedium}

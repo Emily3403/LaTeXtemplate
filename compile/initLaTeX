@@ -25,7 +25,8 @@ ln -s "$HOME/Documents/Programs/LaTeX/emily_template/compile/template.fmt" .
 ln -s "$HOME/Documents/Programs/LaTeX/emily_template/src/" .
 mkdir -p out
 
-echo "%&template
+if [ ! -f "main.tex" ]; then
+    echo "%&template
 \endofdump
 
 %\documentclass[11pt]{article}
@@ -45,4 +46,6 @@ echo "%&template
 
 
 \end{document}
-" >main.tex
+" > main.tex
+
+fi

@@ -4,7 +4,6 @@
 \RequirePackage{credentials}
 
 \newif\if@template@option@module@AOT
-\newif\if@template@option@module@PPL
 
 \providecommand{\AOT}{%
     \title{Agententechnologie}%
@@ -15,23 +14,12 @@
     %    \renewcommand\thesubsubsection{(\textit{\roman{subsubsection}})}%
 }
 
-\providecommand{\PPL}{%
-    \title{Protocol Programming Lab}%
-    \template@credentials@make{{emily,michel}}
-    %
-    %    \renewcommand{\thesection}{}%
-    %    \renewcommand\thesubsection{Aufgabe \arabic{section}.\arabic{subsection}:}%
-    %    \renewcommand\thesubsubsection{(\textit{\roman{subsubsection}})}%
-}
-
-
 
 \pgfkeys{
     \template@setfamily{\template@setupName},
     %
     % Here you may include your own modules.
     AOT/.is if=@template@option@module@AOT,
-    PPL/.is if=@template@option@module@PPL,
     %
 }
 
@@ -42,9 +30,6 @@
         \AOT
     \fi
     %
-    \if@template@option@module@PPL
-        \PPL
-    \fi
 }
 
 
