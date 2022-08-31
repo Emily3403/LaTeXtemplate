@@ -27,7 +27,6 @@ mkdir -p out
 
 if [ ! -f "main.tex" ]; then
     echo "%&template
-\endofdump
 
 %\documentclass[11pt]{article}
 %\usepackage{template}
@@ -36,6 +35,8 @@ if [ ! -f "main.tex" ]; then
 % Generated with commit hash: \"$last_commit\"
 % sha1sum of template.fmt: \"$sha\"
 % Repository URL: https://github.com/Emily3403/LaTeXtemplate
+
+\endofdump
 
 \date{$(date +"%Y -- %m -- X")}
 \useTemplate[$attrs]
