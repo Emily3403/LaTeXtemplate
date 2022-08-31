@@ -39,7 +39,8 @@ if [ ! -f "main.tex" ]; then
 
 \date{$(date +"%Y -- %m -- X")}
 \useTemplate[$attrs]
-
+\author{X}
+\title{X}
 
 \begin{document}
 \maketitle
