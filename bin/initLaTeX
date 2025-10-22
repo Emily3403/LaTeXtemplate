@@ -1,0 +1,47 @@
+#!/bin/bash
+
+if [ -n "$1" ]; then
+    case $1 in
+        *)
+            attrs=""
+            ;;
+    esac
+fi
+
+sha=$(sha1sum "$HOME/Documents/Projects/Programming/LaTeX/emily_template/compile/template.fmt" | head -c 40)
+
+cwd=$(pwd)
+cd "$HOME/Documents/Projects/Programming/LaTeX/emily_template/" || exit
+last_commit=$(git rev-parse HEAD)
+cd "$cwd" || exit
+
+ln -s "$HOME/Documents/Projects/Programming/LaTeX/emily_template/compile/template.fmt" .
+ln -s "$HOME/Documents/Projects/Programming/LaTeX/emily_template/src/" .
+mkdir -p out
+
+if [ ! -f "main.tex" ]; then
+    echo "%&template
+
+%\documentclass[11pt]{article}
+%\usepackage{template}
+%\usepackage{src/template}
+
+% Generated with commit hash: \"$last_commit\"
+% sha1sum of template.fmt: \"$sha\"
+% Repository URL: https://github.com/Emily3403/LaTeXtemplate
+
+\endofdump
+
+\date{$(date +"%Y -- %m -- X")}
+\useTemplate[$attrs]
+\author{X}
+\title{X}
+
+\begin{document}
+\maketitle
+
+
+\end{document}
+" > main.tex
+
+fi

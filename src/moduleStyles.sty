@@ -3,52 +3,29 @@
 
 \RequirePackage{credentials}
 
-\newif\if@template@option@module@AOT
-\newif\if@template@option@module@PPL
+\newif\if@template@option@module@NPA
 
-\providecommand{\AOT}{%
-    \title{Agententechnologie}%
-    \template@credentials@make{{emily,michel,martin,amela}}
+\providecommand{\NPA}{%
+    \title{Network Protocols and Architectures}
+    \renewcommand{\thesection}{Exercise \arabic{section}}
+    \renewcommand{\thesubsection}{\alph{subsection}}
     %
-    %    \renewcommand{\thesection}{}%
-    %    \renewcommand\thesubsection{Aufgabe \arabic{section}.\arabic{subsection}:}%
-    %    \renewcommand\thesubsubsection{(\textit{\roman{subsubsection}})}%
+    \template@credentials@make{{emily,michel,jarne,raphael}}
 }
-
-\providecommand{\PPL}{%
-    \title{Protocol Programming Lab}%
-    \template@credentials@make{{emily,michel}}
-    %
-    %    \renewcommand{\thesection}{}%
-    %    \renewcommand\thesubsection{Aufgabe \arabic{section}.\arabic{subsection}:}%
-    %    \renewcommand\thesubsubsection{(\textit{\roman{subsubsection}})}%
-}
-
 
 
 \pgfkeys{
     \template@setfamily{\template@setupName},
-    %
-    % Here you may include your own modules.
-    AOT/.is if=@template@option@module@AOT,
-    PPL/.is if=@template@option@module@PPL,
-    %
+%
+% Here you may include your own modules.
+    NPA/.is if=@template@option@module@NPA,
+%
 }
 
 
 \providecommand{\digestModules}{
-    % Set the modules correctly
-    \if@template@option@module@AOT
-        \AOT
-    \fi
-    %
-    \if@template@option@module@PPL
-        \PPL
+% Set the modules correctly
+    \if@template@option@module@NPA
+    \NPA
     \fi
 }
-
-
-
-% Here are static includes from the various modules that cannot be linked dynamically.
-
-

@@ -18,6 +18,17 @@
 % argument.
 %
 
+\newcommand\Iftesttrue{}  \let\iftesttrue\@firstoftwo
+\newcommand\Iftestfalse{} \let\iftestfalse\@secondoftwo
+
+\def\Ifcsdef{\ifcsdef}
+\def\Ifcsempty{\ifcsempty}
+
+\def\Iftoggle{\iftoggle}
+\def\Ifdefempty{\ifdefempty}
+
+\def\leftt{\left}
+\def\rightt{\right}
 
 % \deftoggle{<toggle>}{\test}
 %

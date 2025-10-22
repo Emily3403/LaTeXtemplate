@@ -66,7 +66,7 @@
 
 %  This command takes several arguments.
 
-%      language / l = [english (default) | german]
+%      language = [english (default) | german]
 %        → This option sets the language of the template.
 %          This currently only has the effekt of setting the [USEnglish | ngerman] option to be set in the `babel` package.
 %              Note: If you change languages you may have to delete the `main.aux` file on your system.
@@ -78,16 +78,16 @@
 %        → Presets for the "level" - i.e. how much gets included - of the template.
 %          These options are ordered by "how much" they include.
 
-%      geometry / g = …
+%      geometry = …
 %        → This options sets the \geometry options.
 %          Please refer to this package's documentation for the appropriate syntax.
 
-%      pagestyle / p = [Emily (default) | None]
+%      pagestyle = [Emily (default) | None]
 %        → This option sets the pagestyle.
 %          The option `Emily` is my personal default. If you want to set up your own pagestyle either refer to the code
 %          of the pagestyle → `\template@defaultlook` or set `pagestyle=None` and set it by yourself.
 
-%      Ex / Exercise = …
+%      Exercise = …
 %        → This sets the exercise number.
 %          It may be any number which is appropriate for your document. Usually it is a Number ∈ [1, 2, …]
 
@@ -99,34 +99,53 @@
 %  [\lf | \Lf | \LF | \n]
 %  [\TODO | \todo | \ToDo]
 %  \maketitle
+%
+%  <New column type> [M | C]
+%  [\Tstrut | \Bstrut | \fancyEnd]
+
+%  [\N | \Z | \Q | \R | \C]
+%  [\Re | \Im]
+%  \Max
+%  [\ceil | \floor]
+
+%  [\dx | \du | \dt | \inta | \cc]
+%  [\e | \i | \pI]
+
+%  \rest
+%  \mathtag
+%  [\pma | \bma]
+
+%  Renewed environments:
+%      align
+%      align*
+%      alignat
+%      alignat*
+
+%  \brackets
+%    → \br
+%    → \set
 
 
 % TODO: change \ifdefempty to something else.
+% TODO: Check out the package pgfopts to use for option parsing
 
 \NeedsTeXFormat{LaTeX2e}
 
 % Silence the "You have requested ..." errors.
 \RequirePackage{silence}
 \WarningFilter{latex}{You have requested package}
-
-
 \ProvidesPackage{template}[2021/06/31 package template]
 
 % When importing, take the src/ directory into consideration.
 \providecommand*{\input@path}{}
 \edef\input@path{{src/}\input@path}
 
-% A constant for the language. This has to be set *before* the \usepackage{template}.
-\providecommand{\templateLanguage}{english}
-
 % First we include some packages, which have to be present / are very commonly used.
 
 \RequirePackage[T1]{fontenc}        %
 \RequirePackage[utf8]{inputenc}     %
-\RequirePackage[\templateLanguage]{babel}  % Set the document language
 \RequirePackage{titling}            %
 \RequirePackage{fancyhdr}           %
-\RequirePackage{geometry}           %
 \RequirePackage{lmodern}            %
 \RequirePackage{amsmath}            % ---
 \RequirePackage{amsfonts}           % The math packages
@@ -149,8 +168,39 @@
 \RequirePackage{ifthen}             %
 \RequirePackage{xifthen}            % */
 \RequirePackage{microtype}          % Micro adjustments for font settings
-\RequirePackage{ifStatements}       % if statements for vim code formatting
 \RequirePackage{ezkeys}             % provides `/.is code choice` handler.
+
+% === From templateMedium ===
+\RequirePackage{scalerel}       %
+\RequirePackage{stackengine}    %
+\RequirePackage{etoolbox}       % Various LaTeX Tools
+\RequirePackage{mathtools}      %
+\RequirePackage{array}          %
+\RequirePackage{multirow}       % Nice package for multirows in tabulars
+\RequirePackage{physics}        %
+\RequirePackage{aligned-overset}
+\RequirePackage{mathtools}      % Cool math package
+\RequirePackage{stackrel}       % Stack things
+\RequirePackage{nicefrac}       % Nice frac symbols
+\RequirePackage{wasysym}        %
+\RequirePackage{centernot}      % Centered not
+\RequirePackage[ruled, linesnumbered]{algorithm2e}  % Algorithms
+\RequirePackage{typearea}       % Package for rotating the page → might not be useful in every context.
+\RequirePackage{enumitem}       %
+\RequirePackage{hhline}         %
+\RequirePackage{textcomp}       %
+\RequirePackage{footmisc}       %
+\RequirePackage{float}          % New modifier float environments: [H]
+\RequirePackage{makecell}       % Easy to use environment
+\RequirePackage{setspace}       % Adjust spacing on a per environment basis
+
+% === From templateAll ===
+\RequirePackage{tikz}       % Package for plotting things
+\RequirePackage{graphicx}   %
+\RequirePackage{pgfplots}   % More plotting
+\pgfplotsset{compat=1.18}   %
+
+\usetikzlibrary{shapes, shapes.misc, automata, positioning, calc, 3d, arrows.meta, patterns, math, fit}
 
 %% Patch pgffor to be able to contain \par tokens
 \patchcmd[\long]{\pgffor@normal@list}{}{}{}{}
@@ -184,8 +234,6 @@
 \pgfkeys{/\template@keyname/.is family}
 
 
-
-
 % Define the getter and setter which prepend the argument with \keyname.
 \providecommand{\template@getkey}[3][]{\pgfkeysgetvalue{/\template@keyname\Ifdefempty{#1}{}{/#1}/#2}{#3}}
 \providecommand{\template@setkey}[2][]{\pgfkeys{/\template@keyname\Ifdefempty{#1}{}{/#1}, #2}}
@@ -206,19 +254,21 @@
 % These are the maintained options. Usually you want to refer to the above documentation.
 % In case it didn't get maintained / is out of date you can try to decipher this.
 \pgfkeys{
-    % setup the keyspace
+% setup the keyspace
     \template@makefamily{\template@setupName},
     \template@setfamily{\template@setupName},
-    %
-    % Pagestyle options
+%
+% Language
+    language/.initial=english,
+%
+% Pagestyle options
     pagestyle/.is code choice,
     pagestyle/None/.code={},
     pagestyle/Emily/.code=\template@defaultlook,
-    %
-    %
-    % Aliases
-    % Set the defaults
-    Ex/.initial=\relax,
+%
+%
+% Set the defaults
+    Exercise/.initial=\relax,
     minusPage/.initial=0,
     pagestyle=Emily,
     geometry/.initial={a4paper, total={17cm,24cm}},
@@ -230,12 +280,20 @@
 %      Please refer to the beginning of this file for the according documentation.
 \providecommand{\useTemplate}[1][]{
     \template@setkey[\template@setupName]{#1}
+    \template@getkey[\template@setupName]{language}{\theLanguage}
+    \template@getkey[\template@setupName]{geometry}{\theGeometry}
+    %
+    % Set the language
+    \RequirePackage[\theLanguage]{babel}
+    \RequirePackage[\theGeometry]{geometry}
+    %
     % Get the exercise number if it is not given.
-    \template@getkey[\template@setupName]{Ex}{\exerciseNumber}
-    \if\relax\exerciseNumber
+    \template@getkey[\template@setupName]{Exercise}{\exerciseNumber}
+    \if
+        \relax\exerciseNumber
         \ClassWarning{template}{You did not supply an exercise number. If you know what you are doing, then go ahead. This might otherwise lead to problems.}{}
     \fi
-    %
+%
     \template@setkey[\template@setupName]{pagestyle/.eval}
     %
     % Now, digest the module options.
@@ -256,11 +314,8 @@
 % This is my personal preference for my documents.
 % You may define your own custom style which you then use as your pagestyle.
 \providecommand{\template@defaultlook}{
-    % Set up the geometry
-    \template@getkey[\template@setupName]{geometry}{\template@theGeometry}
     \template@getkey[\template@setupName]{minusPage}{\template@minusPage}
     %
-    \expandafter\geometry\expandafter{\template@theGeometry}
     %
     \pagestyle{fancy}
     \fancyhf{}
@@ -332,9 +387,6 @@
 \newcommand{\todo}[1][]{\TODO[#1]}
 \newcommand{\ToDo}[1][]{\TODO[#1]}
 
-% Now get the things of the other template files.
-\RequirePackage{templateMedium}
-\RequirePackage{templateAll}
 
 % -/- General purpose macros ---
 
@@ -342,4 +394,897 @@
 \ifdefined\endofdump\else
     \def\endofdump{}
 \fi
+
+
+% === templateMedium ===
+
+% This template provides mostly math features
+
+% Note: This package does *not* check for previous includes of "smaller" template files. It is assumed that they already got included!
+
+% Provided commands:
+%  <New column type> [M | C]
+%  [\Tstrut | \Bstrut | \fancyEnd]
+
+%  [\N | \Z | \Q | \R | \C]
+%  [\Re | \Im]
+%  \Max
+%  [\ceil | \floor]
+
+%  [\dx | \du | \dt | \inta | \cc]
+%  [\e | \i | \pI]
+
+%  \rest
+%  \mathtag
+%  [\pma | \bma]
+
+%  Renewed environments:
+%      align
+%      align*
+%      alignat
+%      alignat*
+
+%  \brackets
+%    → \br
+%    → \set
+
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{templateMedium}[2021/06/15]
+
+
+\RequirePackage{scalerel}       %
+\RequirePackage{stackengine}    %
+\RequirePackage{etoolbox}       % Various LaTeX Tools
+\RequirePackage{mathtools}      %
+\RequirePackage{array}          %
+\RequirePackage{multirow}       % Nice package for multirows in tabulars
+\RequirePackage{physics}        %
+\RequirePackage{aligned-overset}
+\RequirePackage{mathtools}      % Cool math package
+\RequirePackage{stackrel}       % Stack things
+\RequirePackage{nicefrac}       % Nice frac symbols
+\RequirePackage{wasysym}        %
+\RequirePackage{centernot}      % Centered not
+\RequirePackage[ruled, linesnumbered]{algorithm2e}  % Algorithms
+\RequirePackage{typearea}       % Package for rotating the page → might not be useful in every context.
+\RequirePackage{enumitem}       %
+\RequirePackage{hhline}         %
+\RequirePackage{textcomp}       %
+\RequirePackage{footmisc}       %
+\RequirePackage{float}          % New modifier float environments: [H]
+\RequirePackage{makecell}       % Easy to use environment
+\RequirePackage{setspace}       % Adjust spacing on a per environment basis
+
+
+% more space between equations in displaystyle math
+\setlength{\jot}{7pt}
+
+% Define new column types - Centered with an option to set the width to a fixed amount.
+\newcolumntype{M}[1]{>{\centering\arraybackslash$}m{#1}<{$}}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+% Commands to expand the Table height. Both take an optional argument, which defaults to 18pt / 12pt respectively.
+% These should be deprecated as arraystretch is big enough to hold text.
+\NewDocumentCommand{\Tstrut}{O{}}{\if\relax\detokenize{#1}\relax\rule{0pt}{18pt} \else\rule{0pt}{#1} \fi}
+\NewDocumentCommand{\Bstrut}{O{}}{\if\relax\detokenize{#1}\relax\rule[-12pt]{0pt}{0pt} \else\rule[-#1]{0pt}{0pt} \fi}
+\NewDocumentCommand{\fancyEnd}{O{} O{}}{\Tstrut[#1]\Bstrut[#2]\\\hline}
+
+% Convinience for tables
+\def\endIt{\\\hline}
+
+% Define all the Number-sets like ℕ
+\providecommand{\N}{\mathbb{N}}
+\providecommand{\Z}{\mathbb{Z}}
+\providecommand{\Q}{\mathbb{Q}}
+\providecommand{\R}{\mathbb{R}}
+\renewcommand{\O}{\mathcal{O}}  % Fancy Big-O notation
+% Here, we use \def as depending on if you use LaTeX / LuaLaTeX the \C macro is already loaded.
+\def\C{\mathbb{C}}
+
+% Transpose of a Matrix
+\providecommand{\T}{^{\intercal}}
+
+% A shortcut
+\providecommand{\ceq}{\coloneqq}
+
+% --- algorithm2e options ---
+
+% Input / Output for Algorithm
+\SetKwInOut{Input}{Input}
+\SetKwInOut{Output}{Output}
+\SetKw{Continue}{continue}
+\SetKw{Break}{break}
+
+% Remove italics from if / funcs / …
+\SetArgSty{textrm}
+\SetFuncArgSty{textrm}
+\SetFuncSty{textrm}
+\SetProgSty{textrm}
+\SetDataSty{textrm}
+\SetProcArgSty{textrm}
+
+\DontPrintSemicolon
+
+% -/- algorithm2e options ---
+
+
+% Define Math-functions.
+\let\Re\relax
+\let\Im\relax
+
+\DeclareMathOperator{\Re}{Re}
+\DeclareMathOperator{\Im}{Im}
+\DeclareMathOperator*{\Max}{Max}
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+
+
+% Make nice ⌈ x ⌉ braces.
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+% Some integral macros, with an upright d.
+%  For why the d shall be upright please visit https://physics.nist.gov/cuu/pdf/typefaces.pdf
+\providecommand{\inta}[3]{\Big[ #1 \Big]_{#2}^{#3}}
+\providecommand{\dx}{\;\textnormal{d}x}
+\providecommand{\du}{\;\textnormal{d}u}
+\providecommand{\dt}{\;\textnormal{d}t}
+\providecommand{\cc}{c,\qquad c\in\R}
+
+% e, i and π shall be uppercase, even in math-mode
+%  https://physics.nist.gov/cuu/pdf/typefaces.pdf
+\providecommand{\e}{\textnormal{e}}
+\renewcommand{\i}{\textnormal{i}}
+\providecommand{\pI}{\textnormal{$\pi$}}
+
+% Make the \lim, \int, etc. always have their descriptions as if they were in display-style math.
+\apptocmd{\lim}{\limits}{}{}
+\apptocmd{\int}{\limits}{}{}
+\apptocmd{\sum}{\limits}{}{}
+\apptocmd{\max}{\limits}{}{}
+\apptocmd{\min}{\limits}{}{}
+\apptocmd{\bigcap}{\limits}{}{}
+\apptocmd{\bigcup}{\limits}{}{}
+\apptocmd{\bigvee}{\limits}{}{}
+\apptocmd{\bigwedge}{\limits}{}{}
+\apptocmd{\argmax}{\limits}{}{}
+\apptocmd{\argmin}{\limits}{}{}
+
+
+% restrict a function to a domain.
+% Inspired by https://tex.stackexchange.com/a/22255
+\providecommand\rest[2]{{ % we make the whole thing an ordinary symbol
+        \leftt.\kern-\nulldelimiterspace % automatically resize the bar with \right
+        #1 % the function
+        \vphantom{\big|} % pretend it's a little taller at normal size
+        \rightt|_{#2} % this is the delimiter
+}}
+
+% Add it to the last line of a align* environment and it'll only number the last equation. Very convenient.
+\providecommand{\mathtag}{\addtocounter{equation}{1}\tag{\theequation}}
+
+
+% A command to stretch the pmatrix etc. environments with an optional argument.
+%   https://tex.stackexchange.com/questions/14071/how-can-i-increase-the-line-spacing-in-a-matrix
+\renewcommand*\env@matrix[1][\arraystretch]{%
+    \edef\arraystretch{#1}%
+    \hskip -\arraycolsep%
+    \let\@ifnextchar\new@ifnextchar%
+    \array{*\c@MaxMatrixCols c}%
+}
+
+% Matrix () with optional spacing
+\NewDocumentCommand{\pma}{O{1} m}{
+    \begin{pmatrix}[#1]
+        #2
+    \end{pmatrix}
+}
+
+% Matrix [] with optional spacing
+\NewDocumentCommand{\bma}{O{1} m}{
+    \begin{bmatrix}[#1]
+        #2
+    \end{bmatrix}
+}
+
+
+% Here we renew more amsmath environments.
+% This might not be the best idea, as it depends on the definition of the source code (of amsmath) being constant.
+
+% Because of that I have included a option to not renew the environments.
+% If this definition changes, everything might be fucked. So beware!
+
+\renewenvironment{align}[1][]{%
+    \if\relax\detokenize{#1}\relax\else\symbolset{#1}\fi
+    \start@align\@ne\st@rredfalse\m@ne
+} {%
+    \math@cr \black@\totwidth@
+    \egroup
+    \ifingather@
+        \restorealignstate@
+        \egroup
+        \nonumber
+    \ifnum0=`{\fi\iffalse}\fi
+    \else
+    $$
+    \fi
+    \ignorespacesafterend
+}
+\usepackage{amsmath}
+
+\renewenvironment{align*}[1][]{%
+    \if\relax\detokenize{#1}\relax\else\symbolset{#1}\fi
+    \start@align\@ne\st@rredtrue\m@ne
+}{%
+    \endalign
+}
+
+\renewenvironment{alignat}[1][]{%
+    \if\relax\detokenize{#1}\relax\else\symbolset{#1}\fi
+    \start@align\z@\st@rredfalse
+}{%
+    \endalign
+}
+
+\renewenvironment{alignat*}[1][]{%
+    \if\relax\detokenize{#1}\relax\else\symbolset{#1}\fi
+    \start@align\z@\st@rredtrue
+}{%
+    \endalign
+}
+
+
+% Now we set up the brackets command.
+% Create a namespace
+\providecommand{\template@math@bracket@name}{math bracket}
+\newif\if@template@math@bracket@nostretch
+
+% This is a default setter for all bracket options.
+\providecommand{\bracketset}[1]{\template@setkey[\template@math@bracket@name]{#1}}
+
+% This the the macro for creating brackets around something.
+% Supported options are:
+
+%  size / s = [fit (default) | big | Big | bigg | Bigg]
+%    → Which size are the brackets supposed to be?
+%          If you select fit, then #2 get surrounded by \left and \right.
+%    → You may also type in just a alias for `size = …` e.g. `1`.
+%      Aliases:
+%          0 → big
+%          1 → Big
+%          2 → bigg
+%          3 → Bigg
+
+% TODO: This is incorrect. Only the aliases work.
+%  type / t = [round (default) | square | curly | abs | norm | angle]
+%    → Which kind of brackets should be used?
+%          abs:  the "normal" abs brackets like  `|x|`.
+%          norm: the "normal" norm brackets like `||x||`.
+
+%    → You may also type in just a alias for `type = …` e.g. `r`.
+%      Aliases:
+%          r | ( → round
+%          s | [ → square
+%          c     → curly
+%          |     → abs
+%          ||    → norm
+%          <     → angle
+
+%  no stretch
+%  → If this option is selected, then the bracket will *not* be stretched.
+%    This means that any size option gets ignored.
+
+
+\pgfkeys{
+    \template@makefamily{\template@math@bracket@name},
+    \template@setfamily{\template@math@bracket@name},
+    % Setup bracket options
+    type/.is code choice,
+    type/round/.code={\pgfkeysalso{bracket left=(, bracket right=)}},
+    type/square/.code={\pgfkeysalso{bracket left=[, bracket right=]}},
+    type/curly/.code={\pgfkeysalso{bracket left=\{, bracket right=\}}},
+    type/abs/.code={\pgfkeysalso{bracket left=|, bracket right=|}},
+    type/norm/.code={\pgfkeysalso{bracket left=\lVert, bracket right=\rVert}},
+    type/angle/.code={\pgfkeysalso{bracket left=\langle, bracket right=\rangle}},
+    %
+    no stretch/.is if=@template@math@bracket@nostretch,
+    %
+    % Setup size options
+    size/.is code choice,
+    size/fit/.code={\pgfkeysalso{size left=\left, size right=\right}},
+    size/big/.code={\pgfkeysalso{size left=\big, size right=\big}},
+    size/Big/.code={\pgfkeysalso{size left=\Big, size right=\Big}},
+    size/bigg/.code={\pgfkeysalso{size left=\bigg, size right=\bigg}},
+    size/Bigg/.code={\pgfkeysalso{size left=\Bigg, size right=\Bigg}},
+    %
+    % Aliases
+    t/.code=\pgfkeysalso{type=#1},
+    n/.code=\pgfkeysalso{no stretch},
+    %
+    0/.code=\pgfkeysalso{size=big},
+    1/.code=\pgfkeysalso{size=Big},
+    2/.code=\pgfkeysalso{size=bigg},
+    3/.code=\pgfkeysalso{size=Bigg},
+    %
+    r/.code=\pgfkeysalso{type=round},
+    (/.code=\pgfkeysalso{type=round},
+    %
+    s/.code=\pgfkeysalso{type=square},
+    [/.code=\pgfkeysalso{type=square},
+    %
+    c/.code=\pgfkeysalso{type=curly},
+    %
+    |/.code=\pgfkeysalso{type=abs},
+    %
+    ||/.code=\pgfkeysalso{type=norm},
+    %
+    </.code=\pgfkeysalso{type=angle},
+    a/.code=\pgfkeysalso{type=angle},
+    %
+    % Set defaults
+    bracket left/.initial=(,
+    bracket right/.initial=),
+    %
+    size left/.initial=\left,
+    size right/.initial=\right,
+    %
+    type=round,
+    size=fit,
+}
+
+% Set aliases since `\brackets` is (IMO) too much to type every time
+\providecommand{\br}[2][]{
+    \brackets[type=round, #1]{#2}
+}
+
+\providecommand{\set}[2][]{
+    \brackets[type=curly, #1]{#2}
+}
+
+% This is the macro that does the magic. Actually pgfkeys does most of the magic, but I'll take that!
+\providecommand{\brackets}[2][]{
+    \template@setkey[\template@math@bracket@name]{#1}
+    \template@setkey[\template@math@bracket@name]{size/.eval}
+    \template@setkey[\template@math@bracket@name]{type/.eval}
+    %
+    % Now, get the appropriate size / brackets
+    \template@getkey[\template@math@bracket@name]{size left}{\leftSize}
+    \template@getkey[\template@math@bracket@name]{size right}{\rightSize}
+    \template@getkey[\template@math@bracket@name]{bracket left}{\leftBracket}
+    \template@getkey[\template@math@bracket@name]{bracket right}{\rightBracket}
+    %
+    \if@template@math@bracket@nostretch
+        \leftBracket#2\rightBracket
+    \else
+        \leftSize\leftBracket#2\rightSize\rightBracket
+    \fi
+}
+
+
+% === templateAll ===
+% This template provides a few complicated math commands.
+
+
+% Provided commands:
+%  [\LRA | \RA | \xequal | \xequiv]
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{templateAll}[2021/06/15]
+
+
+\RequirePackage{tikz}       % Package for plotting things
+\RequirePackage{graphicx}   %
+\RequirePackage{pgfplots}   % More plotting
+\pgfplotsset{compat=1.18}   %
+
+\usetikzlibrary{shapes, shapes.misc, automata, positioning, calc, 3d, arrows.meta, patterns, math, fit}
+
+% Set up a new keyspace
+\providecommand{\template@math@symbol@name}{math symbol}
+
+% This is a default setter for all symbol options.
+\providecommand{\symbolset}[1]{\template@setkey[\template@math@symbol@name]{#1}}
+
+% TODO: Rewrite this section to be more coherent.
+% TODO: Format this with the vim formatter.
+
+% Now we setup the keys that we can use.
+
+% Arguments:
+%  over = …
+%      The overset to be put on top of the symbol.
+%      This may be any form of string (maybe you will have to enclose it in {…}).
+%          Note: The default way the text is display is math mode. To change this behavior you may place the argument in \text{…}.
+
+%  under = …
+%      The underset to be put under the symbol.
+%      See the above documentation.
+%          Note: If the `under` key is bigger in (horizontal) size than `over`,
+%                the underset *will* overlap with other math that is present to either sides.
+%                → To avoid this behaviour place the biggest part of your text on top.
+
+%  kern = …
+%      The kern to be placed after the symbol. The argument is a whole number.
+%      This property will be adjusted automatically, however it can be manually overridden.
+%      If `double align` is specified the kern is adjusted to a default (40), set in `\template@math@symbol@digestSpace`.
+%      If not otherwise specified it defaults to 0.
+
+%  no stretch
+%      Do not stretch the symbol to fit the width of the `over` / `under` options.
+
+%  align
+%      If the `&` character shall be placed before the symbol.
+
+%  double align
+%      If the characters `&&` should be placed after the symbol.
+%      This might be useful when aligning things that the symbol is always a certain amount away.
+
+%  neg
+%      If the symbol shall be negated.
+
+
+% Setup all the options
+\pgfkeys{
+    \template@makefamily{\template@math@symbol@name},
+    \template@setfamily{\template@math@symbol@name},
+% Set if's
+    no stretch/.is if=@template@math@symbol@nostretch,
+    align/.is if=@template@math@symbol@align,
+    double align/.is if=@template@math@symbol@doublealign,
+    neg/.is if=@template@math@symbol@neg,
+% Set defaults
+    over/.initial=\relax,
+    under/.initial=\relax,
+    kern/.initial=\relax,
+}
+
+% Implement if statements for `key=true`
+\newif\if@template@math@symbol@nostretch
+\newif\if@template@math@symbol@align
+\newif\if@template@math@symbol@doublealign
+\newif\if@template@math@symbol@neg
+
+% This is a top-down approach at explaining how these macros work.
+
+% First we define some actual macros, which shall use the symbol generator.
+% These macros use the fancy xparse package which enables syntax like
+
+% \LRA-30-
+
+% to set the second parameter without setting the first.
+
+% Examples:
+% The default case:
+%   \LRA
+
+% Aligned:
+%   \LRA[align]
+
+% Overset with the word `xfce`:
+%      \LRA[over=xfce]
+
+% Note: The argument of the text is not enclosed in brackets / quotes.
+%       The pgfkeys package parses the arguments where the argument is of the form [key={value}, …].
+%       That means if you want your text to contain a special character like `=` you have to enclose it in {…} like this
+
+%   \LRA[over={a=b}]
+
+% Double aligned:
+%   \LRA[double align]
+
+% Negated:
+%   \LRA[neg]
+
+% These options may be mixed together in any form you may like.
+
+
+% Arguments:
+%  #1 = pgfkeys {key=value} list which is parsed by pgfkeys.
+%  #2 = spacing.
+%      If omitted a correct spacing is found. See the keys documentation for more explanation.
+\NewDocumentCommand{\LRA}{o D--{\relax}}{
+    \template@math@symbol@wrapper[\xLeftrightarrow]{\Leftrightarrow}{#1}{#2}
+}
+
+\NewDocumentCommand{\RA}{o D--{\relax}}{
+    \template@math@symbol@wrapper[\xRightarrow]{\Rightarrow}{#1}{#2}
+}
+
+\NewDocumentCommand{\xequal}{o D--{\relax}}{
+    \template@math@symbol@wrapper{=}{#1}{#2}
+}
+
+\NewDocumentCommand{\xequiv}{o D--{\relax}}{
+    \template@math@symbol@wrapper{\equiv}{#1}{#2}
+}
+
+% This macro is a wrapper for `\template@math@symbol@make`. It digests the keys and sets the space accordingly.
+
+% Arguments:
+%  #1 = Alternative Stretch macro
+%  #2 = Symbol
+%  #3 = pgfkeys
+%  #4 = Spacing
+\providecommand{\template@math@symbol@wrapper}[4][]{
+% Digest the options - if they aren't empty
+    \IfNoValueTF{#3}{}{
+        \template@setkey[\template@math@symbol@name]{#3}
+    }
+    %
+    \template@math@symbol@digestSpace{#4}
+    %
+    \template@math@symbol@make[#1]{#2}
+}
+
+% Maybe make the `not` in the center of the symbol
+
+% Arguments:
+%  #1 = Use not -> 0/1
+%  #2 = Symbol
+\providecommand{\maybeMakeNot}[2]{
+    \ifnum#1=1
+    \centernot{#2}
+    \else
+    #2
+    \fi
+}
+
+
+% This is yet another helper for `\template@math@symbol@make` - or rather for the wrapper.
+% This macro decides on how the space is set, according to the given configuration.
+
+%  if (`kern` != `\relax`):
+%      It is kept.
+
+%  else if (#1 != `\relax`):
+%      The kern is set to #1.
+
+%  else if (double align is being used):
+%      The kern is set to 40
+
+%  else:
+%      It is set to 0.
+
+% Note: The value of the `double align` spacing is hard coded here.
+% This is not optimal, however I can't get the expansion the right way round, so I shall keep it like this.
+
+% Arguments:
+%  #1 = Space
+\providecommand{\template@math@symbol@digestSpace}[1]{
+% Only override the value if none is present
+    \template@getkey[\template@math@symbol@name]{kern}{\theKern}
+    %
+    \if\relax\theKern
+    %
+    % If no Space given - find the best
+    \if\relax#1
+    \if@template@math@symbol@doublealign
+    \template@setkey[\template@math@symbol@name]{kern=40}
+    \else
+    \template@setkey[\template@math@symbol@name]{kern=0}
+    \fi
+    \else
+    %
+    \template@setkey[\template@math@symbol@name]{kern=#1}
+    \fi
+    %
+    \else
+    \fi
+}
+
+
+% This is the general handler for any sort of Math char (⇒, ⇔, etc.), which has to be formatted.
+% This macro *should* only be used by the `\template@math@symbol@wrapper` since no pgfkeys handling gets done here.
+
+% Arguments:
+%  #1 = Alternative macro to call, which will stretch.
+%  #2 = Normal symbol, which gets handled.
+\providecommand{\template@math@symbol@make}[2][]{
+% First, we aquire the keys to use
+    \template@getkey[\template@math@symbol@name]{over}{\template@math@symbol@overset}
+    \template@getkey[\template@math@symbol@name]{under}{\template@math@symbol@underset}
+    \template@getkey[\template@math@symbol@name]{kern}{\template@math@symbol@space}
+    %
+    % We now set the keys global. This is to avoid any problems in other macros in particular with the `&` character.
+    % The `&` character causes a new group to be formed (in `align`), which clears all existing (manually created) definitions.
+    % To circumvent this we set all keys global. Since they are protected with the @ it is quite tricky for the user to screw up and access these macros.
+    \global\let\template@math@symbol@overset\template@math@symbol@overset
+    \global\let\template@math@symbol@underset\template@math@symbol@underset
+    \global\let\template@math@symbol@space\template@math@symbol@space
+    %
+    % Setup the normal symbol which may be overridden
+    \gdef\template@math@symbol@content{#2}
+    %
+    % If we don't want to stretch, only use the base operator.
+    \if@template@math@symbol@nostretch {
+        \gdef\template@math@symbol@command{\template@math@symbol@helper@funcNormalOverset}
+    } \else {
+    % Now check if we have a alternative macro given. If not ↓, then stretch the existing one.
+        \if\relax\detokenize{#1}\relax {
+        % Calculate the max of overset, underset and actual operator
+            \pgfmathsetmacro\template@math@symbol@boxWidth{max(width("$\template@math@symbol@content$"), width("$\template@math@symbol@overset$"), width("$\template@math@symbol@underset$"))}
+            \pgfmathsetmacro\template@math@symbol@boxHeight{height("$#2$")}
+            %
+            % Change into global definitions as per ↑
+            \global\let\template@math@symbol@boxWidth\template@math@symbol@boxWidth
+            \global\let\template@math@symbol@boxHeight\template@math@symbol@boxHeight
+            %
+            \gdef\template@math@symbol@command{\template@math@symbol@helper@funcScaleBox}
+        %
+        } \else {
+        % only use the alternative command if over / under are not empty
+            \gdef\template@math@symbol@command{\template@math@symbol@helper@funcNormalOverset}
+            %
+            \ifdefempty{\template@math@symbol@overset}{}{
+                \gdef\template@math@symbol@command{\template@math@symbol@helper@funcAlternateSymbol}
+                \gdef\template@math@symbol@content{#1}
+            }
+            %
+            \ifdefempty{\template@math@symbol@underset}{}{
+                \gdef\template@math@symbol@command{\template@math@symbol@helper@funcAlternateSymbol}
+                \gdef\template@math@symbol@content{#1}
+            }
+        } \fi
+    } \fi
+    %
+    % Now handle all if@math@symbol@ cases
+    \if@template@math@symbol@align {
+        \gdef\template@math@symbol@useAlign{1}
+    } \else {
+        \gdef\template@math@symbol@useAlign{0}
+    } \fi
+    %
+    \if@template@math@symbol@doublealign {
+        \gdef\template@math@symbol@doubleAlign{&&}
+    } \else {
+        \gdef\template@math@symbol@doubleAlign{}
+    } \fi
+    %
+    \if@template@math@symbol@neg {
+        \gdef\template@math@symbol@neg{1}
+    } \else {
+        \gdef\template@math@symbol@neg{0}
+    } \fi
+    %
+    % Now execute the command!
+    \template@math@symbol@command{\template@math@symbol@useAlign}{\template@math@symbol@overset}{\template@math@symbol@underset}{\template@math@symbol@neg}{\template@math@symbol@content}%
+    \template@math@symbol@doubleAlign\kern \the\dimexpr \template@math@symbol@space pt
+}
+
+% We now define a few helpers for the `\template@math@symbol@make` macro. Their use is to implement a universal interface for it to use.
+
+% You may wonder why the macro is implemented with `\@firstoftwo / \@secondoftwo`.
+% This is because the \if doesn't behave well with a `&`.
+% Thus, we cleanup the if and only then process further. This is achieved by `\expandafter\@firstoftwo`
+
+% All of the following helpers have the following arguments:
+
+% Arguments:
+%  #1 = align -> 0/1
+%  #2 = overset
+%  #3 = underset
+%  #4 = neg -> 0/1
+%  #5 = symbol
+\providecommand{\template@math@symbol@helper@funcNormalOverset}[5]{
+    \ifnum#1=1
+    \expandafter\@firstoftwo
+    \else
+    \expandafter\@secondoftwo
+    \fi
+    {\overset{#2}&{\underset{\mathclap{#3}}{\maybeMakeNot{#4}{#5}}}}
+    {\overset{#2}{\underset{#3}{\maybeMakeNot{#4}{#5}}}}
+}
+%
+\providecommand{\template@math@symbol@helper@funcAlternateSymbol}[5]{
+    \ifnum#1=1
+    \expandafter\@firstoftwo
+    \else
+    \expandafter\@secondoftwo
+    \fi
+    {&\maybeMakeNot{#4}{#5[#3]{#2}}}
+    {\maybeMakeNot{#4}{#5[#3]{#2}}}
+}
+%
+\providecommand{\template@math@symbol@helper@funcScaleBox}[5]{
+    \ifnum#1=1
+    \expandafter\@firstoftwo
+    \else
+    \expandafter\@secondoftwo
+    \fi
+    {\overset{#2}&{\maybeMakeNot{#4}{\underset{\mathclap{#3}}{\resizebox{\template@math@symbol@boxWidth pt}{\template@math@symbol@boxHeight pt}{$#5$}}}}}
+    {\maybeMakeNot{#4}{\overset{#2}{\underset{#3}{\resizebox{\template@math@symbol@boxWidth pt}{\template@math@symbol@boxHeight pt}{$#5$}}}}}
+}
+
+
+% Cross symbol
+\tikzset{
+    cross/.style={cross out, draw=black, fill=none, minimum size=2*(#1-\pgflinewidth), inner sep=0pt, outer sep=0pt},
+    cross/.default={2pt}, >=Latex
+}
+
+\def\template@tikz@mail@getkey#1#2{\pgfkeysgetvalue{/tikz/mail/#1}{#2}}
+
+
+\tikzset{
+    mail/.is family,
+    mail,
+    height/.initial=3/2,
+    width/.initial=2,
+    mid point/.initial=2/3,
+    scale factor/.initial=1/8,
+    .pic={
+        % Aquire macros
+        \template@tikz@mail@getkey{height}{\theHeight};
+        \template@tikz@mail@getkey{width}{\theWidth};
+        \template@tikz@mail@getkey{mid point}{\theMidPoint};
+        \template@tikz@mail@getkey{scale factor}{\scale};
+        %
+        % Apply scale
+        \pgfmathsetmacro\theHeight{\theHeight * \scale}
+        \pgfmathsetmacro\theWidth{\theWidth * \scale}
+        \pgfmathsetmacro\theMidPoint{\theMidPoint * \scale}
+        %
+        % Draw
+        \draw[fill=white, draw=white] (-\theWidth, \theHeight) rectangle (\theWidth, -\theHeight);
+        %
+        % Details
+        \draw[-] (-\theWidth, -\theHeight) -- (0, \theMidPoint) -- (\theWidth, -\theHeight);
+        \draw[-, fill=white] (-\theWidth, \theHeight) -- (0 , -\theMidPoint) -- (\theWidth, \theHeight);
+        %
+        % Border
+        \draw[-] (-\theWidth,\theHeight) -- (\theWidth,\theHeight) -- (\theWidth,-\theHeight)
+        -- (-\theWidth, -\theHeight) -- (-\theWidth, \theHeight) -- (\theWidth, \theHeight);
+    }
+}
+
+%! A macro which provides a inline mail icon.
+\newcommand{\mail}[1][1]{
+    \tikz[baseline=-0.5ex] \pic[scale=#1] {mail};
+}
+
+%! Helper macro for the document
+\def\template@tikz@document@getkey#1#2{\pgfkeysgetvalue{/tikz/document/#1}{#2}}
+
+\tikzset{
+    document/.is family,
+    document,
+    %
+    height/.initial=2,
+    width/.initial=1.4,
+    bend x/.initial=0.5,  % From right  (?)
+    bend y/.initial=0.5,  % From top    (?)
+    scale factor/.initial=0.9,  % How much to scale the picture
+    fill color/.initial=lightgray,
+    draw color/.initial=black,
+    %
+    lines start/.initial=0.2,  % From top
+    lines stop/.initial=0.2,   % From bottom
+    num lines/.initial=7,
+    lines hsep/.initial=0.2,
+    lines bsep/.initial=\relax,  % Seperator between lines. If left to \relax it is calculated automatically.
+    lines color/.initial=red,
+    lines small sec/.initial=1/3,  % When the small section ends
+    %
+    .pic={
+        % Aquire macros for drawing
+        \template@tikz@document@getkey{height}{\theHeight}
+        \template@tikz@document@getkey{width}{\theWidth}
+        \template@tikz@document@getkey{bend x}{\theBendX}
+        \template@tikz@document@getkey{bend y}{\theBendY}
+        \template@tikz@document@getkey{scale factor}{\scale}
+        \template@tikz@document@getkey{fill color}{\theFillColor}
+        \template@tikz@document@getkey{draw color}{\theDrawColor}
+        %
+        % Aquire macros for lines
+        \template@tikz@document@getkey{lines start}{\theLinesStart}
+        \template@tikz@document@getkey{lines stop}{\theLinesStop}
+        \template@tikz@document@getkey{num lines}{\theNumLines}
+        \template@tikz@document@getkey{lines hsep}{\theHSep}
+        \template@tikz@document@getkey{lines bsep}{\theBSep}
+        \template@tikz@document@getkey{lines color}{\theLinesColor}
+        \template@tikz@document@getkey{lines small sec}{\theLinesPerc}
+        %
+        % Apply scale
+        \pgfmathsetmacro\theHeight{\theHeight * \scale / 2}
+        \pgfmathsetmacro\theWidth{\theWidth * \scale / 2}
+        \pgfmathsetmacro\theBendX{\theBendX * \scale}
+        \pgfmathsetmacro\theBendY{\theBendY * \scale}
+        %
+        \pgfmathsetmacro\theLinesStart{\theLinesStart * \scale}
+        \pgfmathsetmacro\theLinesStop{\theLinesStop * \scale}
+        \pgfmathsetmacro\theHSep{\theHSep * \scale}
+        %
+        % Draw
+        \draw[fill=\theFillColor, draw=\theDrawColor] (-\theWidth, \theHeight) to (\theWidth - \theBendX, \theHeight) to (\theWidth, \theHeight - \theBendY)
+        to (\theWidth, -\theHeight) to (-\theWidth, -\theHeight) to (-\theWidth, \theHeight);
+        \draw[fill=white] (\theWidth - \theBendX, \theHeight) to  (\theWidth - \theBendX, \theHeight - \theBendY) to (\theWidth, \theHeight - \theBendY);
+        %
+        % Draw little lines
+        \if\relax\theBSep
+            \pgfmathsetmacro\theBSep{(2*\theHeight - \theLinesStart - \theLinesStop) / (\theNumLines - 1)}
+        \fi
+        %
+        % Apply scale
+        \pgfmathsetmacro\snakeHeight{0.17 * sqrt(\scale)}
+        %
+        \foreach [evaluate=\x as \y using \theHeight - \theLinesStart - (\x-1) * \theBSep,
+        evaluate=\y as \maybeNegSpace using (\theBendX) * (\y > (1 - \theLinesPerc) * \theHeight * 2 - \theHeight)]
+        \x in {1, ..., \theNumLines}{
+            \draw[draw=red, decorate, decoration={snake,amplitude=\snakeHeight mm,segment length=10*\snakeHeight mm, post length=0mm,pre length=0mm}]
+            (-\theWidth + \theHSep, \y) to (\theWidth - \theHSep - \maybeNegSpace, \y);
+        }
+    }
+}
+
+%! A macro which provides a inline mail icon.
+\newcommand{\doc}[1][1]{
+    \tikz[baseline=-0.5ex] \pic[scale=#1] {document};
+}
+
+
+
+
+% This counter represents the number of times the \makeQuestionsAndAnswers macro has been called. This is needed due to the fact that labels have to be unique and a number that increments every time does indeed fulfil this purpose.
+\newcounter{template@q+a@labelCounter}
+\newcounter{template@q+a@globalCount}
+
+
+% This is a boolean value that defines if answers should be printed.
+\def\template@questions@makeAnswers{1}
+
+\def\makeStarSec#1{
+    \phantomsection
+    \addcontentsline{toc}{section}{#1}
+    \section*{#1}
+}
+
+% #1 = Optional overwrite for "Fragen Kaptiel {#1}"
+% #2 = pgffor string to parse. See `tests/questionsAndAnswers.tex` for examples.
+\newcommand{\makeQuestionsAndAnswers}[2][]{
+    % Check if an overwrite for the heading is supplied. If so, use it.
+    \if\relax\detokenize{#1}\relax
+        \def\heading{Kapitel \arabic{section}}
+    \else
+        \def\heading{#1}
+    \fi
+    %
+    % Set up the label used for referencing
+    \addtocounter{template@q+a@labelCounter}{1}
+    \def\makeQuestionLabel##1{Fragen \arabic{template@q+a@labelCounter} ##1}
+    \def\makeAnswerLabel##1{Antworten \arabic{template@q+a@labelCounter} ##1}
+    %
+    % Make the heading
+    \clearpage
+    \makeStarSec{Fragen \heading}
+    %
+    % Now make the Questions
+    \foreach[count=\i] \Q/\_ in {#2} {%
+        \par%
+        \ifnum\template@questions@makeAnswers=0
+            \textbf{Frage \i}
+        \else
+            \hyperref[\makeAnswerLabel{\i}]{\textbf{Frage \i}}%
+            \refstepcounter{template@q+a@globalCount}\label{\makeQuestionLabel{\i}}%
+        \fi
+        %
+        \par\Q%
+    }
+    %
+    % Maybe make Answers
+    \ifnum\template@questions@makeAnswers=0\else
+        \clearpage
+        \makeStarSec{Antworten \heading}
+        %
+        \foreach[count=\i] \Q/\A in {#2} {%
+            \par%
+            \hyperref[\makeQuestionLabel{\i}]{\textbf{Antwort \i}}%
+            \refstepcounter{template@q+a@globalCount}\label{\makeAnswerLabel{\i}}%
+            \par\emph{\Q}\par\A%
+        }
+    \fi
+    \clearpage
+}
 
